@@ -108,49 +108,197 @@ export default function Home() {
               <button className={styles.moreButton}>More events →</button>
             </div>
 
-            <div className={styles.eventsGrid}>
-              <article className={styles.eventCard}>
-                <div className={styles.eventMeta}>England. FA Cup</div>
-                <div className={styles.eventTeams}>
-                  <div>Man City</div>
-                  <div className={styles.eventScore}>1</div>
-                  <div>Liverpool</div>
-                  <div className={styles.eventScore}>3</div>
-                </div>
-                <div className={styles.eventOddsRow}>
-                  <div className={styles.eventOdds}>1.44</div>
-                  <div className={styles.eventOdds}>4.5</div>
-                  <div className={styles.eventOdds}>2.75</div>
-                </div>
-              </article>
+            <div className={styles.eventStrip}>
+              {[
+                {
+                  league: 'England. FA Cup',
+                  status: 'H2 80:48',
+                  home: 'Man City',
+                  homeScore: '2',
+                  away: 'Liverpool',
+                  awayScore: '4',
+                  odds: ['2.20', '4.5', '1.65'],
+                  tags: ['OVER', 'TOTAL', 'UNDER'],
+                },
+                {
+                  league: 'World. Featured Bouts',
+                  status: 'Tomorrow, 02:00',
+                  home: 'Deontay Wilder',
+                  away: 'Derek Chisora',
+                  odds: ['2.64', '18.66', '1.55'],
+                  tags: ['1', 'X', '2'],
+                },
+                {
+                  league: 'India. Premier League',
+                  status: 'INNINGS 1',
+                  home: 'Delhi Capitals',
+                  homeScore: '152/4(16.3)',
+                  away: 'Mumbai Indians',
+                  awayScore: '162/6',
+                  odds: ['22 available outcomes'],
+                  tags: [''],
+                },
+                {
+                  league: 'India. Premier League',
+                  status: 'TODAY, 19:00',
+                  home: 'Gujarat Titans',
+                  away: 'Rajasthan Royals',
+                  odds: ['1.90', '1.90'],
+                  tags: ['1', '2'],
+                },
+              ].map((event) => (
+                <article key={`${event.league}-${event.status}`} className={styles.eventCard}>
+                  <div className={styles.eventMetaRow}>
+                    <span className={styles.eventMeta}>{event.league}</span>
+                    <span className={styles.eventStatus}>{event.status}</span>
+                  </div>
+                  <div className={styles.eventTeamsRow}>
+                    <div className={styles.teamName}>{event.home}</div>
+                    {event.homeScore && <div className={styles.eventScore}>{event.homeScore}</div>}
+                    <div className={styles.teamName}>{event.away}</div>
+                    {event.awayScore && <div className={styles.eventScore}>{event.awayScore}</div>}
+                  </div>
+                  <div className={styles.eventOddsRow}>
+                    {event.odds.map((odd, index) => (
+                      <div key={index} className={styles.eventOdds}>
+                        <div className={styles.oddsValue}>{odd}</div>
+                        {event.tags?.[index] && <div className={styles.oddsTag}>{event.tags[index]}</div>}
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
 
-              <article className={styles.eventCard}>
-                <div className={styles.eventMeta}>World. Featured Bouts</div>
-                <div className={styles.eventTeams}>
-                  <div>Deontay Wilder</div>
-                  <div className={styles.eventScore}>vs</div>
-                  <div>Derek Chisora</div>
-                </div>
-                <div className={styles.eventOddsRow}>
-                  <div className={styles.eventOdds}>2.64</div>
-                  <div className={styles.eventOdds}>18.66</div>
-                  <div className={styles.eventOdds}>1.55</div>
-                </div>
-              </article>
+            <div className={styles.eventsSubSection}>
+              <div className={styles.eventsSubHeader}>
+                <span>IPL</span>
+                <button className={styles.moreButton}>More events →</button>
+              </div>
+              <div className={styles.eventStrip}>
+                {[
+                  {
+                    league: 'India. Premier League',
+                    status: 'INNINGS 1',
+                    home: 'Delhi Capitals',
+                    homeScore: '152/4(16.3)',
+                    away: 'Mumbai Indians',
+                    awayScore: '162/6',
+                    odds: ['22 available outcomes'],
+                  },
+                  {
+                    league: 'India. Premier League',
+                    status: 'TODAY, 19:00',
+                    home: 'Gujarat Titans',
+                    away: 'Rajasthan Royals',
+                    odds: ['1.90', '1.90'],
+                    tags: ['1', '2'],
+                  },
+                  {
+                    league: 'India. Premier League',
+                    status: 'TOMORROW, 15:00',
+                    home: 'Sunrisers Hyderabad',
+                    away: 'Lucknow Super Giants',
+                    odds: ['1.70', '2.15'],
+                    tags: ['1', '2'],
+                  },
+                  {
+                    league: 'India. Premier League',
+                    status: 'TOMORROW, 19:00',
+                    home: 'Royal Challengers Bengaluru',
+                    away: 'Chennai Super Kings',
+                    odds: ['1.62', '2.30'],
+                    tags: ['1', '2'],
+                  },
+                ].map((event) => (
+                  <article key={`${event.league}-${event.status}`} className={styles.eventCard}>
+                    <div className={styles.eventMetaRow}>
+                      <span className={styles.eventMeta}>{event.league}</span>
+                      <span className={styles.eventStatus}>{event.status}</span>
+                    </div>
+                    <div className={styles.eventTeamsRow}>
+                      <div className={styles.teamName}>{event.home}</div>
+                      {event.homeScore && <div className={styles.eventScore}>{event.homeScore}</div>}
+                      <div className={styles.teamName}>{event.away}</div>
+                      {event.awayScore && <div className={styles.eventScore}>{event.awayScore}</div>}
+                    </div>
+                    <div className={styles.eventOddsRow}>
+                      {event.odds.map((odd, index) => (
+                        <div key={index} className={styles.eventOdds}>
+                          <div className={styles.oddsValue}>{odd}</div>
+                          {event.tags?.[index] && <div className={styles.oddsTag}>{event.tags[index]}</div>}
+                        </div>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
 
-              <article className={styles.eventCard}>
-                <div className={styles.eventMeta}>India. Premier League</div>
-                <div className={styles.eventTeams}>
-                  <div>Delhi Capitals</div>
-                  <div className={styles.eventScore}>1</div>
-                  <div>Mumbai Indians</div>
-                  <div className={styles.eventScore}>2</div>
-                </div>
-                <div className={styles.eventOddsRow}>
-                  <div className={styles.eventOdds}>1.02</div>
-                  <div className={styles.eventOdds}>15.42</div>
-                </div>
-              </article>
+            <div className={styles.eventsSubSection}>
+              <div className={styles.eventsSubHeader}>
+                <span>Best Live Matches</span>
+                <span className={styles.liveBadge}>Live</span>
+              </div>
+              <div className={styles.eventStrip}>
+                {[
+                  {
+                    league: 'Football. England. FA Cup',
+                    status: 'H2 80:48',
+                    home: 'Man City',
+                    homeScore: '2',
+                    away: 'Liverpool',
+                    awayScore: '0',
+                    odds: ['2.20', '4.5', '1.65'],
+                    tags: ['1', 'X', '2'],
+                  },
+                  {
+                    league: 'Football. Spain. LaLiga',
+                    status: 'H2 61:49',
+                    home: 'Real Sociedad',
+                    away: 'Levante',
+                    odds: ['1.12', '6.50', '37.00'],
+                    tags: ['1', 'X', '2'],
+                  },
+                  {
+                    league: 'Football. Italy. Serie A',
+                    status: 'H1 22:54',
+                    home: 'Sassuolo',
+                    away: 'Cagliari',
+                    odds: ['2.25', '2.90', '3.60'],
+                    tags: ['1', 'X', '2'],
+                  },
+                  {
+                    league: 'Football. India. Super League',
+                    status: 'H2 92:51',
+                    home: 'Jamshedpur FC',
+                    away: 'Mohun Bagan SG',
+                    odds: ['126.00', '15.00', '1.01'],
+                    tags: ['1', 'X', '2'],
+                  },
+                ].map((event) => (
+                  <article key={`${event.league}-${event.status}`} className={styles.eventCard}>
+                    <div className={styles.eventMetaRow}>
+                      <span className={styles.eventMeta}>{event.league}</span>
+                      <span className={styles.eventStatus}>{event.status}</span>
+                    </div>
+                    <div className={styles.eventTeamsRow}>
+                      <div className={styles.teamName}>{event.home}</div>
+                      {event.homeScore && <div className={styles.eventScore}>{event.homeScore}</div>}
+                      <div className={styles.teamName}>{event.away}</div>
+                      {event.awayScore && <div className={styles.eventScore}>{event.awayScore}</div>}
+                    </div>
+                    <div className={styles.eventOddsRow}>
+                      {event.odds.map((odd, index) => (
+                        <div key={index} className={styles.eventOdds}>
+                          <div className={styles.oddsValue}>{odd}</div>
+                          {event.tags?.[index] && <div className={styles.oddsTag}>{event.tags[index]}</div>}
+                        </div>
+                      ))}
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
           </section>
         </main>
