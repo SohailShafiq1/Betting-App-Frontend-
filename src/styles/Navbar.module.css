@@ -173,6 +173,10 @@
 }
 
 @media (max-width: 768px) {
+  .navbar {
+    position: static;
+  }
+
   .navbarContainer {
     height: 60px;
     padding: 0 15px;
