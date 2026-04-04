@@ -1,37 +1,48 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import Navbar from '../components/Navbar';
 import styles from '../styles/Home.module.css';
 
 const bannerImages = ['/banner1.png', '/banner2.png'];
-const sidebarItems = [
+
+const staticItems = [
   'Favorites',
   'Top Parlays',
   'Bonuses',
-  'Football',
-  'Basketball',
-  'Tennis',
-  'Esports',
-  'Volleyball',
-];
-
-const leagueItems = [
-  'UEFA Champions League',
-  'UEFA Europa League',
-  'UEFA Conference League',
-  'England Premier League',
-  'Spain LaLiga',
-  'Spain Copa del Rey',
-  'Italy Serie A',
 ];
 
 export default function Home() {
   const [bannerIndex, setBannerIndex] = useState(0);
+  const [categories, setCategories] = useState([]);
+  const [tournaments, setTournaments] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const API_URL = import.meta.env.VITE_API_URL;
+  const backendUrl = API_URL ? API_URL.replace(/\/api$/, '') : '';
 
   useEffect(() => {
     const interval = setInterval(() => {
       setBannerIndex((prev) => (prev + 1) % bannerImages.length);
     }, 2000);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [cRes, tRes] = await Promise.all([
+          axios.get(`${API_URL}/categories`),
+          axios.get(`${API_URL}/tournaments`),
+        ]);
+        setCategories(cRes.data.data || []);
+        setTournaments(tRes.data.data || []);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
   return (
@@ -47,16 +58,57 @@ export default function Home() {
         <aside className={styles.sidebar}>
           <div className={styles.sidebarHeader}>PARIMATCH</div>
           <div className={styles.sidebarLinks}>
-            {sidebarItems.map((item) => (
+            {staticItems.map((item) => (
               <button key={item} className={styles.sidebarButton}>{item}</button>
             ))}
           </div>
 
-          <div className={styles.popularLabel}>FOOTBALL · POPULAR</div>
+          <div className={styles.sportsHeader}>SPORTS</div>
+          <div className={styles.categoriesList}>
+            {loading ? (
+              <div className={styles.loadingCategories}>Loading sports...</div>
+            ) : categories.length > 0 ? (
+              categories.map((category) => {
+                const logoUrl = category.logo?.startsWith('http')
+                  ? category.logo
+                  : `${backendUrl}${category.logo}`;
+
+                return (
+                  <button key={category._id} className={styles.categoryButton}>
+                    <img src={logoUrl} alt={category.heading} className={styles.categoryLogo} />
+                    <span className={styles.categoryName}>{category.heading}</span>
+                  </button>
+                );
+              })
+            ) : (
+              <div className={styles.noCategories}>No sports available</div>
+            )}
+          </div>
+
+          <div className={styles.popularLabel}>TOURNAMENTS</div>
           <div className={styles.leagueList}>
-            {leagueItems.map((item) => (
-              <button key={item} className={styles.leagueButton}>{item}</button>
-            ))}
+            {loading ? (
+              <div style={{ padding: '12px 14px', textAlign: 'center', fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>
+                Loading tournaments...
+              </div>
+            ) : tournaments.length > 0 ? (
+              tournaments.map((tournament) => (
+                <button key={tournament._id} className={styles.leagueButton}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left', width: '100%' }}>
+                    <div style={{ fontSize: '13px', fontWeight: '600' }}>{tournament.name}</div>
+                    {tournament.category && (
+                      <div style={{ fontSize: '11px', color: 'rgba(255,255,255,0.6)' }}>
+                        📂 {tournament.category.heading}
+                      </div>
+                    )}
+                  </div>
+                </button>
+              ))
+            ) : (
+              <div style={{ padding: '12px 14px', textAlign: 'center', fontSize: '12px', color: 'rgba(255,255,255,0.5)' }}>
+                No tournaments available
+              </div>
+            )}
           </div>
         </aside>
 

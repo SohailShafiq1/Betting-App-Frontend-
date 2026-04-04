@@ -88,6 +88,106 @@
   background: rgba(178, 59, 255, 0.18);
 }
 
+.sportsHeader {
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.categoriesList {
+  display: grid;
+  gap: 10px;
+}
+
+.categorySection {
+  margin-bottom: 4px;
+}
+
+.categoryHeaderWithLogo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(168, 85, 247, 0.1));
+  border-left: 3px solid rgb(168, 85, 247);
+  cursor: pointer;
+  border-radius: 4px 0 0 4px;
+  margin: 8px 0 4px 0;
+}
+
+.categoryHeaderWithLogo:hover {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(168, 85, 247, 0.15));
+}
+
+.categoryLogoHeader {
+  width: 24px;
+  height: 24px;
+  border-radius: 3px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.categoryHeader {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.tournamentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.categoryButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-white);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.categoryButton:hover {
+  background: rgba(178, 59, 255, 0.18);
+  border-color: rgba(178, 59, 255, 0.3);
+}
+
+.categoryLogo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.categoryName {
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.loadingCategories,
+.noCategories {
+  padding: 12px 14px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
 .popularLabel {
   font-size: 11px;
   letter-spacing: 1.4px;
