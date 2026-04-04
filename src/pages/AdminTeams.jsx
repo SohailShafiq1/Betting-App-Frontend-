@@ -5,6 +5,8 @@ import styles from '../styles/Admin.module.css';
 
 export default function AdminTeams() {
   const [matches, setMatches] = useState([]);
+  const [tournaments, setTournaments] = useState([]);
+  const [selectedTournament, setSelectedTournament] = useState('');
   const [teamAName, setTeamAName] = useState('');
   const [teamBName, setTeamBName] = useState('');
   const [oddsA, setOddsA] = useState(1.8);
@@ -15,21 +17,25 @@ export default function AdminTeams() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const loadMatches = async () => {
+    const loadData = async () => {
       try {
-        const response = await api.get('/matches');
-        setMatches(response.data);
+        const [matchesRes, tournamentsRes] = await Promise.all([
+          api.get('/matches'),
+          api.get('/tournaments'),
+        ]);
+        setMatches(matchesRes.data);
+        setTournaments(tournamentsRes.data.data || []);
       } catch (err) {
-        setError(err.response?.data?.message || 'Unable to load matches');
+        setError(err.response?.data?.message || 'Unable to load data');
       }
     };
-    loadMatches();
+    loadData();
   }, []);
 
   const handleAddMatch = async (e) => {
     e.preventDefault();
-    if (!teamAName || !teamBName || !oddsA || !oddsB) {
-      setError('Both team names and odds are required');
+    if (!selectedTournament || !teamAName || !teamBName || !oddsA || !oddsB) {
+      setError('Tournament and both team names with odds are required');
       return;
     }
 
@@ -38,6 +44,7 @@ export default function AdminTeams() {
 
     try {
       const formData = new FormData();
+      formData.append('tournament', selectedTournament);
       formData.append('teamAName', teamAName);
       formData.append('teamBName', teamBName);
       formData.append('oddsA', oddsA);
@@ -82,11 +89,32 @@ export default function AdminTeams() {
         <div className={styles.headerRow}>
           <div>
             <h2>Matches</h2>
-            <p>Create a match with Team A, Team B, and their individual odds.</p>
+            <p>Create a match under a tournament with Team A, Team B, and their individual odds.</p>
           </div>
         </div>
 
         <form className={styles.teamForm} onSubmit={handleAddMatch}>
+          <label>
+            Tournament *
+            <select
+              value={selectedTournament}
+              onChange={(e) => setSelectedTournament(e.target.value)}
+              required
+            >
+              <option value="">Select a tournament</option>
+              {tournaments.map((tournament) => (
+                <option key={tournament._id} value={tournament._id}>
+                  {tournament.name} ({tournament.matchCount || 0} matches)
+                </option>
+              ))}
+            </select>
+            {tournaments.length === 0 && (
+              <small style={{ color: '#FF4D6D', marginTop: '8px', display: 'block' }}>
+                No tournaments available. Create one first.
+              </small>
+            )}
+          </label>
+
           <label>
             Team A Name
             <input value={teamAName} onChange={(e) => setTeamAName(e.target.value)} placeholder="Team A name" required />
@@ -126,7 +154,14 @@ export default function AdminTeams() {
             return (
               <div key={match._id} className={styles.teamCard}>
                 <div className={styles.teamCardHeader}>
-                  <h3>{match.teamAName} vs {match.teamBName}</h3>
+                  <div>
+                    <h3>{match.teamAName} vs {match.teamBName}</h3>
+                    {match.tournament && (
+                      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', margin: '4px 0 0 0' }}>
+                        🎮 {match.tournament.name}
+                      </p>
+                    )}
+                  </div>
                   <button onClick={() => handleDelete(match._id)}>Delete</button>
                 </div>
                 <div className={styles.matchOddsRow}>

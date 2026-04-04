@@ -11,6 +11,8 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminDeposits from './pages/AdminDeposits';
 import AdminSettings from './pages/AdminSettings';
 import AdminTeams from './pages/AdminTeams';
+import AdminTournaments from './pages/AdminTournaments';
+import AdminCategories from './pages/AdminCategories';
 
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -55,6 +57,22 @@ function App() {
             element={
               <ProtectedRoute role="admin">
                 <AdminTeams />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/categories"
+            element={
+              <ProtectedRoute role="admin">
+                <AdminCategories />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/tournaments"
+            element={
+              <ProtectedRoute role="admin">
+                <AdminTournaments />
               </ProtectedRoute>
             }
           />

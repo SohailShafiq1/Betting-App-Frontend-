@@ -34,6 +34,14 @@ export default function Sidebar() {
           <span className={styles.icon}>💰</span>
           Deposits
         </NavLink>
+        <NavLink to="/admin/categories" onClick={closeMenu} className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}>
+          <span className={styles.icon}>📂</span>
+          Categories
+        </NavLink>
+        <NavLink to="/admin/tournaments" onClick={closeMenu} className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}>
+          <span className={styles.icon}>🎮</span>
+          Tournaments
+        </NavLink>
         <NavLink to="/admin/teams" onClick={closeMenu} className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}>
           <span className={styles.icon}>🏟️</span>
           Matches
