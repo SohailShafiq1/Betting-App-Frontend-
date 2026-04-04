@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import api from '../api/axios';
 import styles from '../styles/Auth.module.css';
 
 export default function Signup() {
@@ -69,24 +69,20 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/register`,
-        {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-          confirmPassword: formData.confirmPassword,
-        }
-      );
+      const response = await api.post('/auth/register', {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+      });
 
       if (response.data.success) {
-        setSuccess('Account created successfully! Redirecting...');
+        const user = response.data.user;
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('user', JSON.stringify(user));
 
-        setTimeout(() => {
-          navigate('/');
-        }, 1500);
+        setSuccess('Account created successfully! Redirecting...');
+        setTimeout(() => navigate('/'), 1200);
       }
     } catch (err) {
       const message = err.response?.data?.message || 'Registration failed. Please try again.';
@@ -100,7 +96,7 @@ export default function Signup() {
     <div className={styles.authContainer}>
       <div className={styles.authCard}>
         <h1 className={styles.authTitle}>Sign Up</h1>
-        
+
         {error && <div className={styles.errorMessage}>{error}</div>}
         {success && <div className={styles.successMessage}>{success}</div>}
 

@@ -14,14 +14,17 @@ export default function Navbar() {
   return (
     <nav className={styles.navbar}>
       <div className={styles.navbarContainer}>
-        {/* Logo */}
         <div className={styles.navbarLogo}>
           <img src="/Logo.svg" alt="Parimatch Logo" className={styles.logoImg} />
           <span className={styles.logoText}>PARIMATCH</span>
         </div>
 
-        {/* Desktop Navigation */}
         <ul className={`${styles.navMenu} ${mobileMenuOpen ? styles.active : ''}`}>
+          <li className={styles.navItem}>
+            <a href="/" className={styles.navLink}>
+              Home
+            </a>
+          </li>
           <li className={styles.navItem}>
             <a href="/deposit" className={styles.navLink}>
               Deposit
@@ -44,7 +47,6 @@ export default function Navbar() {
           </li>
         </ul>
 
-        {/* User Menu */}
         <div className={styles.navbarUser}>
           {user && user.name && (
             <>
@@ -56,7 +58,6 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile Menu Toggle */}
         <div
           className={`${styles.hamburger} ${mobileMenuOpen ? styles.active : ''}`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

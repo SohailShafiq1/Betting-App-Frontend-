@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import api from '../api/axios';
 import styles from '../styles/Auth.module.css';
 
 export default function Login() {
@@ -29,19 +29,15 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/auth/login`,
-        formData
-      );
-
+      const response = await api.post('/auth/login', formData);
       if (response.data.success) {
-        setSuccess('Login successful! Redirecting...');
+        const user = response.data.user;
         localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('user', JSON.stringify(user));
 
-        setTimeout(() => {
-          navigate('/');
-        }, 1500);
+        const destination = user.role === 'admin' ? '/admin/dashboard' : '/';
+        setSuccess('Login successful! Redirecting...');
+        setTimeout(() => navigate(destination), 1200);
       }
     } catch (err) {
       const message = err.response?.data?.message || 'Login failed. Please try again.';
@@ -55,7 +51,7 @@ export default function Login() {
     <div className={styles.authContainer}>
       <div className={styles.authCard}>
         <h1 className={styles.authTitle}>Login</h1>
-        
+
         {error && <div className={styles.errorMessage}>{error}</div>}
         {success && <div className={styles.successMessage}>{success}</div>}
 
