@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import '../styles/Auth.css';
+import styles from '../styles/Auth.module.css';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -40,7 +40,7 @@ export default function Login() {
         localStorage.setItem('user', JSON.stringify(response.data.user));
 
         setTimeout(() => {
-          navigate('/dashboard');
+          navigate('/deposit');
         }, 1500);
       }
     } catch (err) {
@@ -52,15 +52,15 @@ export default function Login() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h1 className="auth-title">Login</h1>
+    <div className={styles.authContainer}>
+      <div className={styles.authCard}>
+        <h1 className={styles.authTitle}>Login</h1>
         
-        {error && <div className="error-message">{error}</div>}
-        {success && <div className="success-message">{success}</div>}
+        {error && <div className={styles.errorMessage}>{error}</div>}
+        {success && <div className={styles.successMessage}>{success}</div>}
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          <div className="form-group">
+        <form onSubmit={handleSubmit} className={styles.authForm}>
+          <div className={styles.formGroup}>
             <label htmlFor="email">Email Address</label>
             <input
               id="email"
@@ -73,7 +73,7 @@ export default function Login() {
             />
           </div>
 
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="password">Password</label>
             <input
               id="password"
@@ -86,12 +86,12 @@ export default function Login() {
             />
           </div>
 
-          <button type="submit" className="auth-button" disabled={loading}>
+          <button type="submit" className={styles.authButton} disabled={loading}>
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
 
-        <p className="auth-footer">
+        <p className={styles.authFooter}>
           Don't have an account? <Link to="/signup">Sign up here</Link>
         </p>
       </div>

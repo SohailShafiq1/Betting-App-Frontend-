@@ -1,0 +1,433 @@
+/* Deposit Page - BLACK + PURPLE NEON THEME */
+
+:root {
+  --bg-primary: #000000;
+  --color-primary: #A020F0;
+  --color-secondary: #C77DFF;
+  --color-accent: #FF4D6D;
+  --text-primary: #FFFFFF;
+  --card-bg: #111111;
+  --border-color: #A020F0;
+}
+
+.depositPage {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, #0a0a0a 100%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.depositContainer {
+  width: 100%;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.depositCard {
+  background: var(--card-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 
+    0 0 30px rgba(160, 32, 240, 0.3),
+    0 0 60px rgba(160, 32, 240, 0.15),
+    inset 0 0 20px rgba(199, 125, 255, 0.05);
+  backdrop-filter: blur(10px);
+  animation: slideUp 0.6s ease-out;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.depositHeader {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.depositTitle {
+  color: var(--text-primary);
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.depositSubtitle {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.paymentTabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 5px;
+  border-radius: 8px;
+  border: 1px solid rgba(160, 32, 240, 0.2);
+}
+
+.tab {
+  flex: 1;
+  padding: 12px 16px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab:hover {
+  color: var(--color-secondary);
+}
+
+.tab.active {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  color: var(--text-primary);
+  box-shadow: 0 0 15px rgba(160, 32, 240, 0.4);
+}
+
+.paymentContent {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.paymentRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.paymentField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fieldLabel {
+  color: var(--color-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.selectWrapper {
+  position: relative;
+}
+
+.selectBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(160, 32, 240, 0.3);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.selectBox:hover {
+  border-color: var(--color-primary);
+  background: rgba(160, 32, 240, 0.08);
+  box-shadow: 0 0 15px rgba(160, 32, 240, 0.3);
+}
+
+.currencyIcon,
+.networkIcon {
+  font-size: 18px;
+}
+
+.walletSection {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.qrCode {
+  flex-shrink: 0;
+}
+
+.qrPlaceholder {
+  width: 120px;
+  height: 120px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(160, 32, 240, 0.3);
+}
+
+.qrPlaceholder svg {
+  width: 100%;
+  height: 100%;
+}
+
+.walletInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.walletAddressBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(160, 32, 240, 0.3);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.walletAddressBox:hover {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 15px rgba(160, 32, 240, 0.3);
+}
+
+.addressText {
+  color: var(--text-primary);
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Courier New', monospace;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.copyBtn {
+  padding: 6px 12px;
+  background: var(--color-primary);
+  color: var(--text-primary);
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 0 10px rgba(160, 32, 240, 0.3);
+}
+
+.copyBtn:hover {
+  background: var(--color-secondary);
+  box-shadow: 0 0 15px rgba(199, 125, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.warningBox {
+  display: flex;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(160, 32, 240, 0.1);
+  border: 2px solid rgba(160, 32, 240, 0.3);
+  border-radius: 8px;
+  align-items: flex-start;
+}
+
+.warningIcon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.warningText {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.depositInfo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(160, 32, 240, 0.2);
+  border-radius: 8px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.infoLabel {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.infoValue {
+  color: var(--color-secondary);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.bankTransferInfo {
+  padding: 30px;
+  text-align: center;
+  background: rgba(160, 32, 240, 0.1);
+  border: 2px dashed var(--border-color);
+  border-radius: 8px;
+}
+
+.transferText {
+  color: var(--color-secondary);
+  font-size: 14px;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.depositActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(160, 32, 240, 0.2);
+}
+
+.btnPrimary,
+.btnSecondary {
+  flex: 1;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.btnPrimary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  color: var(--text-primary);
+  border: 2px solid var(--color-primary);
+  box-shadow: 0 0 20px rgba(160, 32, 240, 0.4);
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(160, 32, 240, 0.6);
+  background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+}
+
+.btnSecondary {
+  background: transparent;
+  color: var(--color-secondary);
+  border: 2px solid var(--color-secondary);
+  box-shadow: 0 0 15px rgba(199, 125, 255, 0.3);
+}
+
+.btnSecondary:hover {
+  background: rgba(199, 125, 255, 0.1);
+  box-shadow: 0 0 25px rgba(199, 125, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.btnPrimary:active,
+.btnSecondary:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .depositCard {
+    padding: 25px;
+  }
+
+  .depositTitle {
+    font-size: 24px;
+  }
+
+  .walletSection {
+    grid-template-columns: 1fr;
+  }
+
+  .paymentRow {
+    grid-template-columns: 1fr;
+  }
+
+  .depositActions {
+    flex-direction: column;
+  }
+
+  .depositInfo {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .depositContainer {
+    padding: 20px 15px;
+  }
+
+  .depositCard {
+    padding: 20px;
+  }
+
+  .depositTitle {
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+
+  .depositSubtitle {
+    font-size: 12px;
+  }
+
+  .qrPlaceholder {
+    width: 100px;
+    height: 100px;
+  }
+
+  .addressText {
+    font-size: 11px;
+  }
+
+  .btnPrimary,
+  .btnSecondary {
+    padding: 12px 16px;
+    font-size: 12px;
+  }
+}

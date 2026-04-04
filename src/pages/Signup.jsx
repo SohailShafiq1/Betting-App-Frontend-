@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import '../styles/Auth.css';
+import styles from '../styles/Auth.module.css';
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -80,12 +80,12 @@ export default function Signup() {
       );
 
       if (response.data.success) {
-        setSuccess('Account created successfully! Redirecting to login...');
+        setSuccess('Account created successfully! Redirecting...');
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('user', JSON.stringify(response.data.user));
 
         setTimeout(() => {
-          navigate('/dashboard');
+          navigate('/deposit');
         }, 1500);
       }
     } catch (err) {
@@ -97,15 +97,15 @@ export default function Signup() {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <h1 className="auth-title">Sign Up</h1>
+    <div className={styles.authContainer}>
+      <div className={styles.authCard}>
+        <h1 className={styles.authTitle}>Sign Up</h1>
         
-        {error && <div className="error-message">{error}</div>}
-        {success && <div className="success-message">{success}</div>}
+        {error && <div className={styles.errorMessage}>{error}</div>}
+        {success && <div className={styles.successMessage}>{success}</div>}
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          <div className="form-group">
+        <form onSubmit={handleSubmit} className={styles.authForm}>
+          <div className={styles.formGroup}>
             <label htmlFor="name">Full Name</label>
             <input
               id="name"
@@ -118,7 +118,7 @@ export default function Signup() {
             />
           </div>
 
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="email">Email Address</label>
             <input
               id="email"
@@ -131,7 +131,7 @@ export default function Signup() {
             />
           </div>
 
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="password">Password</label>
             <input
               id="password"
@@ -144,7 +144,7 @@ export default function Signup() {
             />
           </div>
 
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input
               id="confirmPassword"
@@ -157,12 +157,12 @@ export default function Signup() {
             />
           </div>
 
-          <button type="submit" className="auth-button" disabled={loading}>
+          <button type="submit" className={styles.authButton} disabled={loading}>
             {loading ? 'Creating Account...' : 'Sign Up'}
           </button>
         </form>
 
-        <p className="auth-footer">
+        <p className={styles.authFooter}>
           Already have an account? <Link to="/login">Login here</Link>
         </p>
       </div>
