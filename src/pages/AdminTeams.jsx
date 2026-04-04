@@ -13,6 +13,8 @@ export default function AdminTeams() {
   const [oddsB, setOddsB] = useState(1.8);
   const [teamALogo, setTeamALogo] = useState(null);
   const [teamBLogo, setTeamBLogo] = useState(null);
+  const [matchDate, setMatchDate] = useState('');
+  const [matchTime, setMatchTime] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -34,8 +36,8 @@ export default function AdminTeams() {
 
   const handleAddMatch = async (e) => {
     e.preventDefault();
-    if (!selectedTournament || !teamAName || !teamBName || !oddsA || !oddsB) {
-      setError('Tournament and both team names with odds are required');
+    if (!selectedTournament || !teamAName || !teamBName || !oddsA || !oddsB || !matchDate || !matchTime) {
+      setError('Tournament, team names, odds, date and time are all required');
       return;
     }
 
@@ -49,6 +51,8 @@ export default function AdminTeams() {
       formData.append('teamBName', teamBName);
       formData.append('oddsA', oddsA);
       formData.append('oddsB', oddsB);
+      formData.append('matchDate', matchDate);
+      formData.append('matchTime', matchTime);
       if (teamALogo) formData.append('teamALogo', teamALogo);
       if (teamBLogo) formData.append('teamBLogo', teamBLogo);
 
@@ -61,6 +65,8 @@ export default function AdminTeams() {
       setTeamBName('');
       setOddsA(1.8);
       setOddsB(1.8);
+      setMatchDate('');
+      setMatchTime('');
       setTeamALogo(null);
       setTeamBLogo(null);
     } catch (err) {
@@ -141,6 +147,16 @@ export default function AdminTeams() {
             <input type="number" step="0.01" min="1" value={oddsB} onChange={(e) => setOddsB(e.target.value)} required />
           </label>
 
+          <label>
+            Match Date *
+            <input type="date" value={matchDate} onChange={(e) => setMatchDate(e.target.value)} required />
+          </label>
+
+          <label>
+            Match Time *
+            <input type="time" value={matchTime} onChange={(e) => setMatchTime(e.target.value)} required />
+          </label>
+
           {error && <div className={styles.error}>{error}</div>}
           <button type="submit" disabled={loading}>
             {loading ? 'Creating...' : 'Add Match'}
@@ -159,6 +175,11 @@ export default function AdminTeams() {
                     {match.tournament && (
                       <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', margin: '4px 0 0 0' }}>
                         🎮 {match.tournament.name}
+                      </p>
+                    )}
+                    {match.matchDate && (
+                      <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', margin: '4px 0 0 0' }}>
+                        📅 {new Date(match.matchDate).toLocaleDateString()} at {match.matchTime}
                       </p>
                     )}
                   </div>
