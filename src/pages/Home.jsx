@@ -301,6 +301,77 @@ export default function Home() {
               </div>
             </div>
           </section>
+
+          <section className={styles.bonusSection}>
+            <div className={styles.bonusHeader}>
+              <div>
+                <h2 className={styles.sectionTitle}>Choose your bonus now</h2>
+                <p className={styles.sectionSubtitle}>All bonus packs in one place for sports, casino and mixed offers.</p>
+              </div>
+              <button className={styles.seeAllButton}>All →</button>
+            </div>
+
+            <div className={styles.bonusNav}>
+              {['All', 'Casino', 'Sports', 'Mix'].map((item) => (
+                <button key={item} className={styles.bonusNavButton}>{item}</button>
+              ))}
+            </div>
+
+            <div className={styles.bonusCards}>
+              {[
+                {
+                  tag: 'Sports',
+                  expires: '1d',
+                  title: 'PREDICTION FOR THE WEST HAM - LEEDS',
+                  footer: [
+                    { label: '20,000 USDT', description: 'Prize fund' },
+                  ],
+                },
+                {
+                  tag: '',
+                  expires: '4d',
+                  title: 'MONEY BONUS 5% FOR DEPOSIT',
+                  footer: [
+                    { label: '300 USDT', description: 'Max. bonus' },
+                    { label: '10 USDT', description: 'Minimum deposit' },
+                  ],
+                },
+                {
+                  tag: 'Sports',
+                  expires: '4d',
+                  title: '15% FREE BET OF THE DEPOSIT AMOUNT',
+                  footer: [
+                    { label: '200 USDT', description: 'Free Bet amount up to' },
+                    { label: '10 USDT', description: 'Minimum deposit' },
+                  ],
+                },
+                {
+                  tag: '',
+                  expires: '4d',
+                  title: '25% BET IN PACK FOR DEPOSIT',
+                  footer: [
+                    { label: '1 bonus', description: 'in pack' },
+                  ],
+                },
+              ].map((card, index) => (
+                <article key={`${card.title}-${index}`} className={styles.bonusCard}>
+                  <div className={styles.bonusMetaRow}>
+                    <div className={styles.bonusTag}>{card.tag || 'Bonus'}</div>
+                    <div className={styles.bonusExpires}>{card.expires}</div>
+                  </div>
+                  <h3 className={styles.bonusTitle}>{card.title}</h3>
+                  <div className={styles.bonusFooter}>
+                    {card.footer.map((item) => (
+                      <div key={item.label} className={styles.bonusStat}>
+                        <span className={styles.bonusValue}>{item.label}</span>
+                        <span className={styles.bonusDescription}>{item.description}</span>
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
         </main>
 
         <aside className={styles.betSlip}>

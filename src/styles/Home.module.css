@@ -353,6 +353,159 @@
   font-weight: 700;
 }
 
+.bonusSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 0 0;
+}
+
+.bonusHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.bonusHeader > div {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sectionTitle {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 800;
+  text-align: left;
+}
+
+.sectionSubtitle {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 14px;
+  text-align: left;
+}
+
+.seeAllButton {
+  align-self: flex-start;
+}
+
+.seeAllButton {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-white);
+  border-radius: 999px;
+  padding: 10px 18px;
+  cursor: pointer;
+  font-size: 14px;
+  align-self: flex-start;
+}
+
+.bonusNav {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.bonusNavButton {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text-white);
+  border-radius: 999px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.bonusCards {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.bonusCards::-webkit-scrollbar {
+  height: 8px;
+}
+
+.bonusCards::-webkit-scrollbar-thumb {
+  background: rgba(178, 59, 255, 0.45);
+  border-radius: 999px;
+}
+
+.bonusCard {
+  min-width: 320px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  flex-shrink: 0;
+}
+
+.bonusMetaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.bonusTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(53, 53, 63, 0.9);
+  color: #7ea8ff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.bonusExpires {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.bonusTitle {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 800;
+}
+
+.bonusFooter {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.bonusStat {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bonusValue {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.bonusDescription {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
 .betSlip {
   display: flex;
   flex-direction: column;
