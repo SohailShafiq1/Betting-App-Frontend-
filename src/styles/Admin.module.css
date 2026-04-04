@@ -174,6 +174,247 @@
   color: #bde5ff;
 }
 
+/* Deposits Management Styles */
+.pageHeader {
+  margin-bottom: 30px;
+}
+
+.pageHeader h1 {
+  font-size: 32px;
+  margin: 0 0 8px 0;
+  background: linear-gradient(135deg, var(--secondary), var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.pageHeader p {
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  font-size: 14px;
+}
+
+.filterButtons {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.filterBtn {
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(160, 32, 240, 0.2);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filterBtn:hover {
+  border-color: var(--primary);
+  color: var(--secondary);
+}
+
+.filterBtn.active {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-color: var(--primary);
+  color: white;
+  box-shadow: 0 0 15px rgba(160, 32, 240, 0.3);
+}
+
+.errorMessage {
+  padding: 14px 18px;
+  border-radius: 8px;
+  background: rgba(255, 77, 109, 0.1);
+  border: 1px solid rgba(255, 77, 109, 0.3);
+  color: #ff8ea0;
+  margin-bottom: 20px;
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(160, 32, 240, 0.2);
+  border-top: 3px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 16px;
+}
+
+.depositsTable {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(160, 32, 240, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 80px 200px 100px 100px 100px 100px 120px;
+  gap: 16px;
+  padding: 16px 20px;
+  background: rgba(160, 32, 240, 0.08);
+  border-bottom: 1px solid rgba(160, 32, 240, 0.15);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--secondary);
+  letter-spacing: 0.5px;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 80px 200px 100px 100px 100px 100px 120px;
+  gap: 16px;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(160, 32, 240, 0.08);
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.tableRow:hover {
+  background: rgba(160, 32, 240, 0.05);
+}
+
+.colId, .colUser, .colAmount, .colWallet, .colMethod, .colStatus, .colDate {
+  overflow: hidden;
+}
+
+.idBadge {
+  background: rgba(160, 32, 240, 0.2);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Monaco', 'Courier New', monospace;
+  color: var(--secondary);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.userName {
+  margin: 0;
+  font-weight: 600;
+  color: white;
+  font-size: 13px;
+}
+
+.userEmail {
+  margin: 0;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.amountBadge {
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.walletBadge {
+  background: rgba(160, 32, 240, 0.2);
+  color: #C77DFF;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.statusBadge {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dateText {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 1200px) {
+  .tableHeader,
+  .tableRow {
+    grid-template-columns: 70px 150px 80px 90px 80px 90px 100px;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .userName {
+    font-size: 12px;
+  }
+
+  .userEmail {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 900px) {
+  .tableHeader,
+  .tableRow {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .tableHeader {
+    display: none;
+  }
+
+  .tableRow {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(160, 32, 240, 0.15);
+    border-radius: 8px;
+    margin-bottom: 12px;
+    padding: 16px;
+  }
+
+  .tableRow::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--secondary);
+    display: block;
+    font-size: 10px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+}
+
 @media (max-width: 1080px) {
   .adminPage {
     grid-template-columns: 1fr;

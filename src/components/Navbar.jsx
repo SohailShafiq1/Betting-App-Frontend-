@@ -1,9 +1,36 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import styles from '../styles/Navbar.module.css';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [wallet, setWallet] = useState(0);
+  const [loading, setLoading] = useState(true);
+  
   const user = JSON.parse(localStorage.getItem('user') || '{}');
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  useEffect(() => {
+    fetchUserWallet();
+  }, []);
+
+  const fetchUserWallet = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/auth/me`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      
+      if (response.data.user) {
+        setWallet(response.data.user.wallet || 0);
+      }
+    } catch (error) {
+      console.error('Error fetching wallet:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -48,6 +75,12 @@ export default function Navbar() {
         </ul>
 
         <div className={styles.navbarUser}>
+          {!loading && (
+            <div className={styles.walletDisplay}>
+              <span className={styles.walletLabel}>Balance</span>
+              <span className={styles.walletAmount}>${Math.round(wallet * 100) / 100}</span>
+            </div>
+          )}
           {user && user.name && (
             <>
               <span className={styles.userName}>{user.name}</span>

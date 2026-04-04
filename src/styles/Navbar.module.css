@@ -107,9 +107,37 @@
 .navbarUser {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
   margin-left: 20px;
   flex-shrink: 0;
+}
+
+.walletDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 8px 15px;
+  background: rgba(160, 32, 240, 0.1);
+  border: 1px solid rgba(160, 32, 240, 0.3);
+  border-radius: 8px;
+  min-width: 130px;
+}
+
+.walletLabel {
+  color: rgba(199, 125, 255, 0.7);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.walletAmount {
+  color: #4ade80;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Monaco', 'Courier New', monospace;
+  text-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
 }
 
 .userName {
@@ -228,6 +256,23 @@
   }
 }
 
+@media (max-width: 768px) {
+  .walletDisplay {
+    min-width: auto;
+    padding: 6px 12px;
+    gap: 1px;
+  }
+
+  .walletLabel {
+    font-size: 8px;
+    letter-spacing: 0.3px;
+  }
+
+  .walletAmount {
+    font-size: 14px;
+  }
+}
+
 @media (max-width: 480px) {
   .logoImg {
     height: 30px;
@@ -246,5 +291,21 @@
   .logoutBtn {
     padding: 6px 14px;
     font-size: 11px;
+  }
+
+  .walletDisplay {
+    min-width: auto;
+    padding: 4px 10px;
+    gap: 0px;
+    font-size: 12px;
+  }
+
+  .walletLabel {
+    font-size: 7px;
+    letter-spacing: 0.2px;
+  }
+
+  .walletAmount {
+    font-size: 12px;
   }
 }

@@ -8,6 +8,7 @@ import Deposit from './pages/Deposit';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminDeposits from './pages/AdminDeposits';
 import AdminSettings from './pages/AdminSettings';
 import AdminTeams from './pages/AdminTeams';
 
@@ -30,6 +31,14 @@ function App() {
             element={
               <ProtectedRoute role="admin">
                 <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/deposits"
+            element={
+              <ProtectedRoute role="admin">
+                <AdminDeposits />
               </ProtectedRoute>
             }
           />

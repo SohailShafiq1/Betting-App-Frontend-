@@ -30,6 +30,10 @@ export default function Sidebar() {
           <span className={styles.icon}>📊</span>
           Dashboard
         </NavLink>
+        <NavLink to="/admin/deposits" onClick={closeMenu} className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}>
+          <span className={styles.icon}>💰</span>
+          Deposits
+        </NavLink>
         <NavLink to="/admin/teams" onClick={closeMenu} className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}>
           <span className={styles.icon}>🏟️</span>
           Matches
