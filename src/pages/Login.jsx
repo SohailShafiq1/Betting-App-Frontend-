@@ -40,7 +40,7 @@ export default function Login() {
         localStorage.setItem('user', JSON.stringify(response.data.user));
 
         setTimeout(() => {
-          navigate('/deposit');
+          navigate('/');
         }, 1500);
       }
     } catch (err) {

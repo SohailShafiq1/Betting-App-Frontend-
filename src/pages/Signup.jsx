@@ -85,7 +85,7 @@ export default function Signup() {
         localStorage.setItem('user', JSON.stringify(response.data.user));
 
         setTimeout(() => {
-          navigate('/deposit');
+          navigate('/');
         }, 1500);
       }
     } catch (err) {

@@ -16,8 +16,8 @@ export default function Navbar() {
       <div className={styles.navbarContainer}>
         {/* Logo */}
         <div className={styles.navbarLogo}>
-          <img src="/Logo.svg" alt="BettingApp Logo" className={styles.logoImg} />
-          <span className={styles.logoText}>BettingApp</span>
+          <img src="/Logo.svg" alt="Parimatch Logo" className={styles.logoImg} />
+          <span className={styles.logoText}>PARIMATCH</span>
         </div>
 
         {/* Desktop Navigation */}
