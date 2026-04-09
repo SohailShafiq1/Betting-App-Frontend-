@@ -86,6 +86,27 @@ export default function AdminTeams() {
     }
   };
 
+  const handleStatusChange = async (matchId, status) => {
+    try {
+      const response = await api.patch(`/matches/${matchId}/status`, { status });
+      setMatches((prev) => prev.map((m) => (m._id === matchId ? response.data : m)));
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to update status');
+    }
+  };
+
+  const handleResultChange = async (matchId, result) => {
+    if (result === 'PENDING') {
+      return;
+    }
+    try {
+      const response = await api.patch(`/matches/${matchId}/result`, { result });
+      setMatches((prev) => prev.map((m) => (m._id === matchId ? response.data.match : m)));
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to set result');
+    }
+  };
+
   const backendUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/\/api$/, '') : '';
 
   return (
@@ -184,6 +205,30 @@ export default function AdminTeams() {
                     )}
                   </div>
                   <button onClick={() => handleDelete(match._id)}>Delete</button>
+                </div>
+                <div className={styles.matchControlsRow}>
+                  <label className={styles.matchControlLabel}>
+                    Status
+                    <select
+                      value={match.status || 'OPEN'}
+                      onChange={(e) => handleStatusChange(match._id, e.target.value)}
+                    >
+                      <option value="OPEN">OPEN</option>
+                      <option value="RUNNING">RUNNING</option>
+                      <option value="FINISHED">FINISHED</option>
+                    </select>
+                  </label>
+                  <label className={styles.matchControlLabel}>
+                    Result
+                    <select
+                      value={match.result || 'PENDING'}
+                      onChange={(e) => handleResultChange(match._id, e.target.value)}
+                    >
+                      <option value="PENDING">PENDING</option>
+                      <option value="A">{match.teamAName} WIN</option>
+                      <option value="B">{match.teamBName} WIN</option>
+                    </select>
+                  </label>
                 </div>
                 <div className={styles.matchOddsRow}>
                   <div className={styles.matchTeamBlock}>

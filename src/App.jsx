@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
+import { BetslipProvider } from './context/BetslipContext';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
@@ -19,68 +20,70 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 function App() {
   return (
-    <Elements stripe={stripePromise}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/deposit" element={<ProtectedRoute><Deposit /></ProtectedRoute>} />
-          <Route path="/admin/login" element={<AdminLogin />} />
+    <BetslipProvider>
+      <Elements stripe={stripePromise}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/deposit" element={<ProtectedRoute><Deposit /></ProtectedRoute>} />
+            <Route path="/admin/login" element={<AdminLogin />} />
 
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedRoute role="admin">
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/deposits"
-            element={
-              <ProtectedRoute role="admin">
-                <AdminDeposits />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/settings"
-            element={
-              <ProtectedRoute role="admin">
-                <AdminSettings />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/teams"
-            element={
-              <ProtectedRoute role="admin">
-                <AdminTeams />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/categories"
-            element={
-              <ProtectedRoute role="admin">
-                <AdminCategories />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/tournaments"
-            element={
-              <ProtectedRoute role="admin">
-                <AdminTournaments />
-              </ProtectedRoute>
-            }
-          />
+            <Route
+              path="/admin/dashboard"
+              element={
+                <ProtectedRoute role="admin">
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/deposits"
+              element={
+                <ProtectedRoute role="admin">
+                  <AdminDeposits />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/settings"
+              element={
+                <ProtectedRoute role="admin">
+                  <AdminSettings />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/teams"
+              element={
+                <ProtectedRoute role="admin">
+                  <AdminTeams />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/categories"
+              element={
+                <ProtectedRoute role="admin">
+                  <AdminCategories />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/tournaments"
+              element={
+                <ProtectedRoute role="admin">
+                  <AdminTournaments />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
-    </Elements>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      </Elements>
+    </BetslipProvider>
   );
 }
 

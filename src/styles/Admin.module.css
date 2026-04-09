@@ -129,6 +129,27 @@
   gap: 14px;
 }
 
+.matchControlsRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.matchControlLabel {
+  display: grid;
+  gap: 8px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.matchControlLabel select {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(160, 32, 240, 0.2);
+  color: var(--text);
+}
+
 .matchTeamBlock {
   display: grid;
   gap: 12px;

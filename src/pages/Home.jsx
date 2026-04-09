@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import api from '../api/axios';
 import Navbar from '../components/Navbar';
+import RecentMatches from '../components/RecentMatches';
+import Betslip from '../components/Betslip';
+import { useBetslip } from '../context/BetslipContext';
 import styles from '../styles/Home.module.css';
 
 const bannerImages = ['/banner1.png', '/banner2.png'];
@@ -15,7 +19,10 @@ export default function Home() {
   const [bannerIndex, setBannerIndex] = useState(0);
   const [categories, setCategories] = useState([]);
   const [tournaments, setTournaments] = useState([]);
+  const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [matchesLoading, setMatchesLoading] = useState(true);
+  const { addToBetslip } = useBetslip();
 
   const API_URL = import.meta.env.VITE_API_URL;
   const backendUrl = API_URL ? API_URL.replace(/\/api$/, '') : '';
@@ -44,6 +51,106 @@ export default function Home() {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchMatches = async () => {
+      try {
+        const response = await api.get('/matches');
+        setMatches(response.data || []);
+      } catch (error) {
+        console.error('Error fetching matches:', error);
+      } finally {
+        setMatchesLoading(false);
+      }
+    };
+    fetchMatches();
+  }, []);
+
+  const isOpenMatch = (match) => {
+    const status = match.status || 'OPEN';
+    const result = match.result || 'PENDING';
+    return (status === 'OPEN' || status === 'RUNNING') && result === 'PENDING';
+  };
+
+  const openMatches = matches.filter(isOpenMatch);
+  const now = new Date();
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const startOfTomorrow = new Date(startOfToday);
+  startOfTomorrow.setDate(startOfTomorrow.getDate() + 1);
+  const startOfDayAfter = new Date(startOfToday);
+  startOfDayAfter.setDate(startOfDayAfter.getDate() + 2);
+
+  const topEvents = openMatches
+    .filter((match) => match.matchDate)
+    .filter((match) => {
+      const date = new Date(match.matchDate);
+      return date >= startOfToday && date < startOfDayAfter;
+    })
+    .sort((a, b) => new Date(a.matchDate) - new Date(b.matchDate));
+
+  const liveMatches = openMatches.filter((match) => match.status === 'RUNNING');
+
+  const tournamentGroups = openMatches.reduce((acc, match) => {
+    const name = match.tournament?.name || 'Tournament';
+    if (!acc[name]) acc[name] = [];
+    acc[name].push(match);
+    return acc;
+  }, {});
+
+  const tournamentSections = Object.entries(tournamentGroups)
+    .map(([name, groupMatches]) => [
+      name,
+      groupMatches.sort((a, b) => new Date(a.matchDate) - new Date(b.matchDate)),
+    ])
+    .slice(0, 2);
+
+  const formatMatchStatus = (match) => {
+    if (!match.matchDate) return match.status || 'OPEN';
+    const matchDate = new Date(match.matchDate);
+    const timeLabel = match.matchTime || matchDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    if (match.status === 'RUNNING') return `LIVE, ${timeLabel}`;
+    if (matchDate >= startOfToday && matchDate < startOfTomorrow) return `TODAY, ${timeLabel}`;
+    if (matchDate >= startOfTomorrow && matchDate < startOfDayAfter) return `TOMORROW, ${timeLabel}`;
+    return `${matchDate.toLocaleDateString()} ${timeLabel}`;
+  };
+
+  const handleOddClick = (match, choice) => {
+    const odds = choice === 'A' ? match.oddsA : match.oddsB;
+    const teamName = choice === 'A' ? match.teamAName : match.teamBName;
+    addToBetslip(match, choice, odds, teamName);
+  };
+
+  const renderEventCard = (match) => (
+    <article key={match._id} className={styles.eventCard}>
+      <div className={styles.eventMetaRow}>
+        <span className={styles.eventMeta}>{match.tournament?.name || 'Tournament'}</span>
+        <span className={styles.eventStatus}>{formatMatchStatus(match)}</span>
+      </div>
+      <div className={styles.eventTeamsRow}>
+        <div className={styles.teamName}>{match.teamAName}</div>
+        <div className={styles.teamName}>{match.teamBName}</div>
+      </div>
+      <div className={styles.eventOddsRow}>
+        <button
+          type="button"
+          className={styles.eventOdds}
+          onClick={() => handleOddClick(match, 'A')}
+        >
+          <div className={styles.oddsValue}>{Number(match.oddsA).toFixed(2)}</div>
+          <div className={styles.oddsTag}>1</div>
+        </button>
+        <button
+          type="button"
+          className={styles.eventOdds}
+          onClick={() => handleOddClick(match, 'B')}
+        >
+          <div className={styles.oddsValue}>{Number(match.oddsB).toFixed(2)}</div>
+          <div className={styles.oddsTag}>2</div>
+        </button>
+      </div>
+    </article>
+  );
 
   return (
     <div className={styles.homePage}>
@@ -149,6 +256,8 @@ export default function Home() {
             </div>
           </section>
 
+          <RecentMatches />
+
           <section className={styles.categorySection}>
             <div className={styles.categoryCard}>SPORTS</div>
             <div className={styles.categoryCard}>ESPORTS</div>
@@ -161,131 +270,36 @@ export default function Home() {
             </div>
 
             <div className={styles.eventStrip}>
-              {[
-                {
-                  league: 'England. FA Cup',
-                  status: 'H2 80:48',
-                  home: 'Man City',
-                  homeScore: '2',
-                  away: 'Liverpool',
-                  awayScore: '4',
-                  odds: ['2.20', '4.5', '1.65'],
-                  tags: ['OVER', 'TOTAL', 'UNDER'],
-                },
-                {
-                  league: 'World. Featured Bouts',
-                  status: 'Tomorrow, 02:00',
-                  home: 'Deontay Wilder',
-                  away: 'Derek Chisora',
-                  odds: ['2.64', '18.66', '1.55'],
-                  tags: ['1', 'X', '2'],
-                },
-                {
-                  league: 'India. Premier League',
-                  status: 'INNINGS 1',
-                  home: 'Delhi Capitals',
-                  homeScore: '152/4(16.3)',
-                  away: 'Mumbai Indians',
-                  awayScore: '162/6',
-                  odds: ['22 available outcomes'],
-                  tags: [''],
-                },
-                {
-                  league: 'India. Premier League',
-                  status: 'TODAY, 19:00',
-                  home: 'Gujarat Titans',
-                  away: 'Rajasthan Royals',
-                  odds: ['1.90', '1.90'],
-                  tags: ['1', '2'],
-                },
-              ].map((event) => (
-                <article key={`${event.league}-${event.status}`} className={styles.eventCard}>
-                  <div className={styles.eventMetaRow}>
-                    <span className={styles.eventMeta}>{event.league}</span>
-                    <span className={styles.eventStatus}>{event.status}</span>
-                  </div>
-                  <div className={styles.eventTeamsRow}>
-                    <div className={styles.teamName}>{event.home}</div>
-                    {event.homeScore && <div className={styles.eventScore}>{event.homeScore}</div>}
-                    <div className={styles.teamName}>{event.away}</div>
-                    {event.awayScore && <div className={styles.eventScore}>{event.awayScore}</div>}
-                  </div>
-                  <div className={styles.eventOddsRow}>
-                    {event.odds.map((odd, index) => (
-                      <div key={index} className={styles.eventOdds}>
-                        <div className={styles.oddsValue}>{odd}</div>
-                        {event.tags?.[index] && <div className={styles.oddsTag}>{event.tags[index]}</div>}
-                      </div>
-                    ))}
-                  </div>
-                </article>
-              ))}
+              {matchesLoading && (
+                <div style={{ padding: '12px 14px', color: 'rgba(255,255,255,0.6)' }}>
+                  Loading events...
+                </div>
+              )}
+              {!matchesLoading && topEvents.length === 0 && (
+                <div style={{ padding: '12px 14px', color: 'rgba(255,255,255,0.6)' }}>
+                  No upcoming events
+                </div>
+              )}
+              {!matchesLoading && topEvents.length > 0 && topEvents.map(renderEventCard)}
             </div>
 
-            <div className={styles.eventsSubSection}>
-              <div className={styles.eventsSubHeader}>
-                <span>IPL</span>
-                <button className={styles.moreButton}>More events →</button>
+            {tournamentSections.map(([name, groupMatches]) => (
+              <div key={name} className={styles.eventsSubSection}>
+                <div className={styles.eventsSubHeader}>
+                  <span>{name}</span>
+                  <button className={styles.moreButton}>More events →</button>
+                </div>
+                <div className={styles.eventStrip}>
+                  {groupMatches.length === 0 ? (
+                    <div style={{ padding: '12px 14px', color: 'rgba(255,255,255,0.6)' }}>
+                      No events available
+                    </div>
+                  ) : (
+                    groupMatches.map(renderEventCard)
+                  )}
+                </div>
               </div>
-              <div className={styles.eventStrip}>
-                {[
-                  {
-                    league: 'India. Premier League',
-                    status: 'INNINGS 1',
-                    home: 'Delhi Capitals',
-                    homeScore: '152/4(16.3)',
-                    away: 'Mumbai Indians',
-                    awayScore: '162/6',
-                    odds: ['22 available outcomes'],
-                  },
-                  {
-                    league: 'India. Premier League',
-                    status: 'TODAY, 19:00',
-                    home: 'Gujarat Titans',
-                    away: 'Rajasthan Royals',
-                    odds: ['1.90', '1.90'],
-                    tags: ['1', '2'],
-                  },
-                  {
-                    league: 'India. Premier League',
-                    status: 'TOMORROW, 15:00',
-                    home: 'Sunrisers Hyderabad',
-                    away: 'Lucknow Super Giants',
-                    odds: ['1.70', '2.15'],
-                    tags: ['1', '2'],
-                  },
-                  {
-                    league: 'India. Premier League',
-                    status: 'TOMORROW, 19:00',
-                    home: 'Royal Challengers Bengaluru',
-                    away: 'Chennai Super Kings',
-                    odds: ['1.62', '2.30'],
-                    tags: ['1', '2'],
-                  },
-                ].map((event) => (
-                  <article key={`${event.league}-${event.status}`} className={styles.eventCard}>
-                    <div className={styles.eventMetaRow}>
-                      <span className={styles.eventMeta}>{event.league}</span>
-                      <span className={styles.eventStatus}>{event.status}</span>
-                    </div>
-                    <div className={styles.eventTeamsRow}>
-                      <div className={styles.teamName}>{event.home}</div>
-                      {event.homeScore && <div className={styles.eventScore}>{event.homeScore}</div>}
-                      <div className={styles.teamName}>{event.away}</div>
-                      {event.awayScore && <div className={styles.eventScore}>{event.awayScore}</div>}
-                    </div>
-                    <div className={styles.eventOddsRow}>
-                      {event.odds.map((odd, index) => (
-                        <div key={index} className={styles.eventOdds}>
-                          <div className={styles.oddsValue}>{odd}</div>
-                          {event.tags?.[index] && <div className={styles.oddsTag}>{event.tags[index]}</div>}
-                        </div>
-                      ))}
-                    </div>
-                  </article>
-                ))}
-              </div>
-            </div>
+            ))}
 
             <div className={styles.eventsSubSection}>
               <div className={styles.eventsSubHeader}>
@@ -293,63 +307,17 @@ export default function Home() {
                 <span className={styles.liveBadge}>Live</span>
               </div>
               <div className={styles.eventStrip}>
-                {[
-                  {
-                    league: 'Football. England. FA Cup',
-                    status: 'H2 80:48',
-                    home: 'Man City',
-                    homeScore: '2',
-                    away: 'Liverpool',
-                    awayScore: '0',
-                    odds: ['2.20', '4.5', '1.65'],
-                    tags: ['1', 'X', '2'],
-                  },
-                  {
-                    league: 'Football. Spain. LaLiga',
-                    status: 'H2 61:49',
-                    home: 'Real Sociedad',
-                    away: 'Levante',
-                    odds: ['1.12', '6.50', '37.00'],
-                    tags: ['1', 'X', '2'],
-                  },
-                  {
-                    league: 'Football. Italy. Serie A',
-                    status: 'H1 22:54',
-                    home: 'Sassuolo',
-                    away: 'Cagliari',
-                    odds: ['2.25', '2.90', '3.60'],
-                    tags: ['1', 'X', '2'],
-                  },
-                  {
-                    league: 'Football. India. Super League',
-                    status: 'H2 92:51',
-                    home: 'Jamshedpur FC',
-                    away: 'Mohun Bagan SG',
-                    odds: ['126.00', '15.00', '1.01'],
-                    tags: ['1', 'X', '2'],
-                  },
-                ].map((event) => (
-                  <article key={`${event.league}-${event.status}`} className={styles.eventCard}>
-                    <div className={styles.eventMetaRow}>
-                      <span className={styles.eventMeta}>{event.league}</span>
-                      <span className={styles.eventStatus}>{event.status}</span>
-                    </div>
-                    <div className={styles.eventTeamsRow}>
-                      <div className={styles.teamName}>{event.home}</div>
-                      {event.homeScore && <div className={styles.eventScore}>{event.homeScore}</div>}
-                      <div className={styles.teamName}>{event.away}</div>
-                      {event.awayScore && <div className={styles.eventScore}>{event.awayScore}</div>}
-                    </div>
-                    <div className={styles.eventOddsRow}>
-                      {event.odds.map((odd, index) => (
-                        <div key={index} className={styles.eventOdds}>
-                          <div className={styles.oddsValue}>{odd}</div>
-                          {event.tags?.[index] && <div className={styles.oddsTag}>{event.tags[index]}</div>}
-                        </div>
-                      ))}
-                    </div>
-                  </article>
-                ))}
+                {matchesLoading && (
+                  <div style={{ padding: '12px 14px', color: 'rgba(255,255,255,0.6)' }}>
+                    Loading live matches...
+                  </div>
+                )}
+                {!matchesLoading && liveMatches.length === 0 && (
+                  <div style={{ padding: '12px 14px', color: 'rgba(255,255,255,0.6)' }}>
+                    No live matches
+                  </div>
+                )}
+                {!matchesLoading && liveMatches.length > 0 && liveMatches.map(renderEventCard)}
               </div>
             </div>
           </section>
@@ -427,16 +395,7 @@ export default function Home() {
         </main>
 
         <aside className={styles.betSlip}>
-          <div className={styles.betSlipHeader}>Betslip</div>
-          <div className={styles.betSlipTabs}>
-            <button className={styles.betSlipTabActive}>Betslip</button>
-            <button className={styles.betSlipTab}>My bets</button>
-          </div>
-          <div className={styles.betSlipEmpty}>
-            <div className={styles.betSlipIcon}>🎟️</div>
-            <div className={styles.betSlipTitle}>Your betslip is empty</div>
-            <div className={styles.betSlipText}>Click on odds to add a bet to the betslip</div>
-          </div>
+          <Betslip />
         </aside>
       </div>
     </div>
