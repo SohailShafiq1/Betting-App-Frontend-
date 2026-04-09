@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import api from '../api/axios';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import RecentMatches from '../components/RecentMatches';
 import Betslip from '../components/Betslip';
@@ -23,6 +24,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [matchesLoading, setMatchesLoading] = useState(true);
   const { addToBetslip } = useBetslip();
+  const navigate = useNavigate();
 
   const API_URL = import.meta.env.VITE_API_URL;
   const backendUrl = API_URL ? API_URL.replace(/\/api$/, '') : '';
@@ -104,6 +106,35 @@ export default function Home() {
     ])
     .slice(0, 2);
 
+  const tournamentById = tournaments.reduce((acc, tournament) => {
+    acc[tournament._id] = tournament;
+    return acc;
+  }, {});
+
+  const getTournamentName = (match) => match.tournament?.name || 'Tournament';
+  const getCategoryId = (match) => {
+    const tournamentId = match.tournament?._id || match.tournament;
+    const tournament = tournamentById[tournamentId];
+    return tournament?.category?._id || tournament?.category || null;
+  };
+  const getCategoryName = (match) => {
+    const tournamentId = match.tournament?._id || match.tournament;
+    const tournament = tournamentById[tournamentId];
+    return tournament?.category?.heading || 'Category';
+  };
+
+  const showTopEvents = () => {
+    navigate('/event', { state: { type: 'top' } });
+  };
+
+  const showCategoryMatches = (category) => {
+    navigate('/event', { state: { type: 'category', id: category._id } });
+  };
+
+  const showTournamentMatches = (tournament) => {
+    navigate('/event', { state: { type: 'tournament', id: tournament._id } });
+  };
+
   const formatMatchStatus = (match) => {
     if (!match.matchDate) return match.status || 'OPEN';
     const matchDate = new Date(match.matchDate);
@@ -181,7 +212,11 @@ export default function Home() {
                   : `${backendUrl}${category.logo}`;
 
                 return (
-                  <button key={category._id} className={styles.categoryButton}>
+                  <button
+                    key={category._id}
+                    className={styles.categoryButton}
+                    onClick={() => showCategoryMatches(category)}
+                  >
                     <img src={logoUrl} alt={category.heading} className={styles.categoryLogo} />
                     <span className={styles.categoryName}>{category.heading}</span>
                   </button>
@@ -200,7 +235,11 @@ export default function Home() {
               </div>
             ) : tournaments.length > 0 ? (
               tournaments.map((tournament) => (
-                <button key={tournament._id} className={styles.leagueButton}>
+                <button
+                  key={tournament._id}
+                  className={styles.leagueButton}
+                  onClick={() => showTournamentMatches(tournament)}
+                >
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left', width: '100%' }}>
                     <div style={{ fontSize: '13px', fontWeight: '600' }}>{tournament.name}</div>
                     {tournament.category && (
@@ -266,7 +305,7 @@ export default function Home() {
           <section className={styles.eventsSection}>
             <div className={styles.eventsHeader}>
               <span>Top events</span>
-              <button className={styles.moreButton}>More events →</button>
+              <button className={styles.moreButton} onClick={showTopEvents}>More events →</button>
             </div>
 
             <div className={styles.eventStrip}>
@@ -287,7 +326,17 @@ export default function Home() {
               <div key={name} className={styles.eventsSubSection}>
                 <div className={styles.eventsSubHeader}>
                   <span>{name}</span>
-                  <button className={styles.moreButton}>More events →</button>
+                  <button
+                    className={styles.moreButton}
+                    onClick={() => {
+                      const tournament = tournaments.find((item) => item.name === name);
+                      if (tournament) {
+                        showTournamentMatches(tournament);
+                      }
+                    }}
+                  >
+                    More events →
+                  </button>
                 </div>
                 <div className={styles.eventStrip}>
                   {groupMatches.length === 0 ? (

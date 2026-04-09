@@ -5,6 +5,7 @@ import { BetslipProvider } from './context/BetslipContext';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
+import Events from './pages/Events';
 import Deposit from './pages/Deposit';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminLogin from './pages/AdminLogin';
@@ -25,6 +26,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+            <Route path="/event" element={<ProtectedRoute><Events /></ProtectedRoute>} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/deposit" element={<ProtectedRoute><Deposit /></ProtectedRoute>} />

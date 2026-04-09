@@ -420,6 +420,13 @@
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.eventOdds:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
 }
 
 .oddsValue {
@@ -458,6 +465,136 @@
   flex-direction: column;
   gap: 16px;
   padding: 20px 0 0;
+}
+
+.matchesListSection {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 10px 0 0;
+}
+
+.matchesListHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.matchesListTitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.matchesListSubtitle {
+  margin: 6px 0 0;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.matchesList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.matchesListEmpty {
+  padding: 16px;
+  color: var(--text-muted);
+  font-size: 13px;
+  border-radius: 18px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  text-align: center;
+}
+
+.matchRowCard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.matchRowHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.matchRowLeague {
+  color: var(--text-muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.matchRowStatus {
+  color: var(--accent-strong);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.matchRowBody {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+}
+
+.matchRowTeams {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.matchRowTeamLine {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-white);
+}
+
+.matchRowOdds {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.matchRowOddButton {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-white);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.matchRowOddButton:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.matchRowOddButton small {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.matchRowMeta {
+  color: var(--text-muted);
+  font-size: 12px;
 }
 
 .bonusHeader {
