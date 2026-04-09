@@ -274,6 +274,12 @@
   height: 100%;
 }
 
+.qrPlaceholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .walletInfo {
   display: flex;
   flex-direction: column;

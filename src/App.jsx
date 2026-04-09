@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Events from './pages/Events';
 import Deposit from './pages/Deposit';
 import Withdraw from './pages/Withdraw';
+import Transactions from './pages/Transactions';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
@@ -33,6 +34,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/deposit" element={<ProtectedRoute><Deposit /></ProtectedRoute>} />
             <Route path="/withdraw" element={<ProtectedRoute><Withdraw /></ProtectedRoute>} />
+            <Route path="/transactions" element={<ProtectedRoute><Transactions /></ProtectedRoute>} />
             <Route path="/admin/login" element={<AdminLogin />} />
 
             <Route

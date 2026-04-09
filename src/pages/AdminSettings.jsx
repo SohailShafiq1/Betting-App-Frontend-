@@ -4,7 +4,13 @@ import api from '../api/axios';
 import styles from '../styles/Admin.module.css';
 
 export default function AdminSettings() {
-  const [settings, setSettings] = useState({ winRate: 65, upOdds: 1.45, downOdds: 2.1, trend: 'NORMAL' });
+  const [settings, setSettings] = useState({
+    winRate: 65,
+    upOdds: 1.45,
+    downOdds: 2.1,
+    trend: 'NORMAL',
+    coins: [],
+  });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -27,6 +33,33 @@ export default function AdminSettings() {
     setSettings((prev) => ({ ...prev, [name]: name === 'trend' ? value : Number(value) }));
     setError('');
     setMessage('');
+  };
+
+  const handleCoinChange = (index, field, value) => {
+    setSettings((prev) => {
+      const updated = [...(prev.coins || [])];
+      updated[index] = { ...updated[index], [field]: value };
+      return { ...prev, coins: updated };
+    });
+    setError('');
+    setMessage('');
+  };
+
+  const addCoin = () => {
+    setSettings((prev) => ({
+      ...prev,
+      coins: [
+        ...(prev.coins || []),
+        { name: '', symbol: '', network: '', address: '' },
+      ],
+    }));
+  };
+
+  const removeCoin = (index) => {
+    setSettings((prev) => ({
+      ...prev,
+      coins: prev.coins.filter((_, i) => i !== index),
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -78,6 +111,66 @@ export default function AdminSettings() {
               <option value="NORMAL">NORMAL</option>
             </select>
           </label>
+
+          <div className={styles.sectionHeader}>Crypto Coins</div>
+          <p className={styles.sectionHint}>These coins are shown on the Deposit page.</p>
+
+          <div className={styles.coinsList}>
+            {settings.coins?.length === 0 && (
+              <div className={styles.emptyCoins}>No coins added yet.</div>
+            )}
+            {settings.coins?.map((coin, index) => (
+              <div key={`coin-${index}`} className={styles.coinRow}>
+                <label>
+                  Name
+                  <input
+                    type="text"
+                    value={coin.name}
+                    onChange={(e) => handleCoinChange(index, 'name', e.target.value)}
+                    placeholder="Tether"
+                  />
+                </label>
+                <label>
+                  Symbol
+                  <input
+                    type="text"
+                    value={coin.symbol}
+                    onChange={(e) => handleCoinChange(index, 'symbol', e.target.value)}
+                    placeholder="USDT"
+                  />
+                </label>
+                <label>
+                  Network
+                  <input
+                    type="text"
+                    value={coin.network}
+                    onChange={(e) => handleCoinChange(index, 'network', e.target.value)}
+                    placeholder="TRC20"
+                  />
+                </label>
+                <label>
+                  Address
+                  <input
+                    type="text"
+                    value={coin.address}
+                    onChange={(e) => handleCoinChange(index, 'address', e.target.value)}
+                    placeholder="Wallet address"
+                  />
+                </label>
+                <button
+                  type="button"
+                  className={styles.removeCoinBtn}
+                  onClick={() => removeCoin(index)}
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
+          </div>
+
+          <button type="button" className={styles.addCoinBtn} onClick={addCoin}>
+            + Add Coin
+          </button>
 
           {message && <div className={styles.success}>{message}</div>}
           {error && <div className={styles.error}>{error}</div>}

@@ -37,7 +37,7 @@ const AdminDeposits = () => {
   };
 
   const getPaymentMethod = (deposit) => {
-    // Since we only support card payments now, all are card
+    if (deposit.method === 'crypto') return '🪙 Crypto';
     return '💳 Card';
   };
 
@@ -114,6 +114,8 @@ const AdminDeposits = () => {
               <div className={styles.colMethod}>Method</div>
               <div className={styles.colStatus}>Status</div>
               <div className={styles.colDate}>Date</div>
+              <div className={styles.colProof}>Proof</div>
+              <div className={styles.colActions}>Action</div>
             </div>
 
             {filteredDeposits.map((deposit) => (
@@ -153,6 +155,58 @@ const AdminDeposits = () => {
                       minute: '2-digit',
                     })}
                   </span>
+                </div>
+                <div className={styles.colProof}>
+                  {deposit.proofImage ? (
+                    <a
+                      className={styles.proofLink}
+                      href={`${API_URL.replace('/api', '')}${deposit.proofImage}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      View
+                    </a>
+                  ) : (
+                    <span className={styles.dateText}>—</span>
+                  )}
+                </div>
+                <div className={styles.colActions}>
+                  {deposit.method === 'crypto' && deposit.paymentStatus === 'pending' ? (
+                    <div className={styles.actionButtons}>
+                      <button
+                        className={styles.approveBtn}
+                        onClick={async () => {
+                          try {
+                            await axios.patch(`${API_URL}/deposits/admin/${deposit._id}/approve-manual`, null, {
+                              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                            });
+                            fetchDeposits();
+                          } catch (err) {
+                            setError(err.response?.data?.message || 'Approval failed');
+                          }
+                        }}
+                      >
+                        Approve
+                      </button>
+                      <button
+                        className={styles.rejectBtn}
+                        onClick={async () => {
+                          try {
+                            await axios.patch(`${API_URL}/deposits/admin/${deposit._id}/reject-manual`, null, {
+                              headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+                            });
+                            fetchDeposits();
+                          } catch (err) {
+                            setError(err.response?.data?.message || 'Rejection failed');
+                          }
+                        }}
+                      >
+                        Reject
+                      </button>
+                    </div>
+                  ) : (
+                    <span className={styles.dateText}>—</span>
+                  )}
                 </div>
               </div>
             ))}

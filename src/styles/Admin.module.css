@@ -111,6 +111,81 @@
   box-shadow: 0 12px 30px rgba(160,32,240,0.3);
 }
 
+.sectionHeader {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 8px;
+}
+
+.sectionHint {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  margin: 0 0 6px 0;
+}
+
+.coinsList {
+  display: grid;
+  gap: 14px;
+}
+
+.coinRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(160,32,240,0.18);
+  border-radius: 14px;
+}
+
+.coinRow label {
+  display: grid;
+  gap: 8px;
+  color: #d3d0ff;
+  font-size: 12px;
+}
+
+.coinRow input {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid rgba(160,32,240,0.2);
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.04);
+  color: var(--text);
+}
+
+.removeCoinBtn {
+  grid-column: span 2;
+  width: fit-content;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,77,109,0.5);
+  background: rgba(255,77,109,0.12);
+  color: #ff8ea0;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.addCoinBtn {
+  width: fit-content;
+  padding: 12px 18px;
+  border-radius: 12px;
+  border: 1px solid rgba(160,32,240,0.5);
+  background: rgba(160,32,240,0.15);
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.emptyCoins {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px dashed rgba(160,32,240,0.3);
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+}
+
 .teamGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -296,7 +371,7 @@
 
 .tableHeader {
   display: grid;
-  grid-template-columns: 80px 200px 100px 100px 100px 100px 120px;
+  grid-template-columns: 80px 200px 100px 100px 100px 100px 120px 80px 140px;
   gap: 16px;
   padding: 16px 20px;
   background: rgba(160, 32, 240, 0.08);
@@ -310,7 +385,7 @@
 
 .tableRow {
   display: grid;
-  grid-template-columns: 80px 200px 100px 100px 100px 100px 120px;
+  grid-template-columns: 80px 200px 100px 100px 100px 100px 120px 80px 140px;
   gap: 16px;
   padding: 14px 20px;
   border-bottom: 1px solid rgba(160, 32, 240, 0.08);
@@ -322,8 +397,19 @@
   background: rgba(160, 32, 240, 0.05);
 }
 
-.colId, .colUser, .colAmount, .colWallet, .colMethod, .colStatus, .colDate {
+.colId, .colUser, .colAmount, .colWallet, .colMethod, .colStatus, .colDate, .colProof, .colActions {
   overflow: hidden;
+}
+
+.proofLink {
+  color: #c7d2fe;
+  font-size: 12px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.proofLink:hover {
+  color: #ffffff;
 }
 
 .actionButtons {
@@ -456,7 +542,7 @@
 @media (max-width: 1200px) {
   .tableHeader,
   .tableRow {
-    grid-template-columns: 70px 150px 80px 90px 80px 90px 100px;
+    grid-template-columns: 70px 150px 80px 90px 80px 90px 100px 70px 120px;
     gap: 12px;
     padding: 12px 16px;
   }
