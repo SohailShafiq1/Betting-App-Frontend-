@@ -295,7 +295,7 @@ export default function Home() {
             </div>
           </section>
 
-          <RecentMatches />
+          {/* <RecentMatches /> */}
 
           <section className={styles.categorySection}>
             <div className={styles.categoryCard}>SPORTS</div>
