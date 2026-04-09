@@ -7,6 +7,7 @@ import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Events from './pages/Events';
 import Deposit from './pages/Deposit';
+import Withdraw from './pages/Withdraw';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
@@ -15,6 +16,7 @@ import AdminSettings from './pages/AdminSettings';
 import AdminTeams from './pages/AdminTeams';
 import AdminTournaments from './pages/AdminTournaments';
 import AdminCategories from './pages/AdminCategories';
+import AdminWithdrawals from './pages/AdminWithdrawals';
 
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -30,6 +32,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/deposit" element={<ProtectedRoute><Deposit /></ProtectedRoute>} />
+            <Route path="/withdraw" element={<ProtectedRoute><Withdraw /></ProtectedRoute>} />
             <Route path="/admin/login" element={<AdminLogin />} />
 
             <Route
@@ -77,6 +80,14 @@ function App() {
               element={
                 <ProtectedRoute role="admin">
                   <AdminTournaments />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/withdrawals"
+              element={
+                <ProtectedRoute role="admin">
+                  <AdminWithdrawals />
                 </ProtectedRoute>
               }
             />

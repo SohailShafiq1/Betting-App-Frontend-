@@ -326,6 +326,70 @@
   overflow: hidden;
 }
 
+.actionButtons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.approveBtn,
+.rejectBtn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+}
+
+.approveBtn {
+  background: #22c55e;
+}
+
+.rejectBtn {
+  background: #ef4444;
+}
+
+.withdrawalsTable {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(160, 32, 240, 0.15);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.withdrawalsHeader {
+  display: grid;
+  grid-template-columns: 80px 200px 100px 120px 100px 120px 160px;
+  gap: 16px;
+  padding: 16px 20px;
+  background: rgba(160, 32, 240, 0.08);
+  border-bottom: 1px solid rgba(160, 32, 240, 0.15);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--secondary);
+  letter-spacing: 0.5px;
+}
+
+.withdrawalsRow {
+  display: grid;
+  grid-template-columns: 80px 200px 100px 120px 100px 120px 160px;
+  gap: 16px;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(160, 32, 240, 0.08);
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.withdrawalsRow:hover {
+  background: rgba(160, 32, 240, 0.05);
+}
+
+.colActions {
+  overflow: hidden;
+}
+
 .idBadge {
   background: rgba(160, 32, 240, 0.2);
   padding: 4px 8px;

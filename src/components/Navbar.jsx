@@ -63,7 +63,7 @@ export default function Navbar() {
             </a>
           </li>
           <li className={styles.navItem}>
-            <a href="/withdrawals" className={styles.navLink}>
+            <a href="/withdraw" className={styles.navLink}>
               Withdrawals
             </a>
           </li>
