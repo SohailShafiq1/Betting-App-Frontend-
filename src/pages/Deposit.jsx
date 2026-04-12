@@ -14,7 +14,7 @@ const Deposit = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [activeTab, setActiveTab] = useState('card');
+  const [activeTab, setActiveTab] = useState('crypto');
   const [cryptoAmount, setCryptoAmount] = useState('');
   const [proofFile, setProofFile] = useState(null);
   const [coins, setCoins] = useState([]);
@@ -204,28 +204,28 @@ const Deposit = () => {
           </header>
 
           <div className={styles.tabsContainer}>
-            <button
+            {/* <button
               className={`${styles.tabButton} ${activeTab === 'card' ? styles.active : ''}`}
               onClick={() => setActiveTab('card')}
             >
               💳 Card Payment
-            </button>
+            </button> */}
             <button
               className={`${styles.tabButton} ${activeTab === 'crypto' ? styles.active : ''}`}
               onClick={() => setActiveTab('crypto')}
             >
               🪙 Crypto
             </button>
-            <button
+            {/* <button
               className={`${styles.tabButton} ${activeTab === 'bank' ? styles.active : ''}`}
               onClick={() => setActiveTab('bank')}
               disabled
             >
               🏦 Bank Transfer (Coming Soon)
-            </button>
+            </button> */}
           </div>
 
-          {activeTab === 'card' && (
+          {/* {activeTab === 'card' && (
             <form onSubmit={handlePayment} className={styles.cardForm}>
               <div className={styles.formGroup}>
                 <label htmlFor="amount">Deposit Amount</label>
@@ -312,7 +312,7 @@ const Deposit = () => {
                 )}
               </button>
             </form>
-          )}
+          )} */}
 
           {activeTab === 'crypto' && (
             <form onSubmit={handleCryptoSubmit} className={styles.paymentContent}>
@@ -426,11 +426,11 @@ const Deposit = () => {
               </button>
             </form>
           )}
-          {activeTab === 'bank' && (
+          {/* {activeTab === 'bank' && (
             <div className={styles.comingSoon}>
               <p>🏦 Bank transfers coming soon!</p>
             </div>
-          )}
+          )} */}
         </section>
       </div>
     </div>

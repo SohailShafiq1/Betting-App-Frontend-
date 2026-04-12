@@ -18,6 +18,7 @@
   padding: 0;
   margin: 0;
   color: var(--text-primary);
+  overflow-x: hidden;
 }
 
 .depositContainer {
@@ -40,6 +41,8 @@
   width: 100%;
   max-width: 1120px;
   margin: 0 auto;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 @keyframes slideUp {
@@ -198,6 +201,7 @@
   display: flex;
   flex-direction: column;
   gap: 25px;
+  min-width: 0;
 }
 
 .paymentRow {
@@ -255,6 +259,7 @@
   grid-template-columns: auto 1fr;
   gap: 20px;
   align-items: flex-start;
+  min-width: 0;
 }
 
 .qrCode {
@@ -288,6 +293,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-width: 0;
 }
 
 .walletAddressBox {
@@ -299,6 +305,7 @@
   border: 2px solid rgba(160, 32, 240, 0.3);
   border-radius: 8px;
   transition: all 0.3s ease;
+  min-width: 0;
 }
 
 .walletAddressBox:hover {
@@ -329,6 +336,7 @@
   transition: all 0.3s ease;
   white-space: nowrap;
   box-shadow: 0 0 10px rgba(160, 32, 240, 0.3);
+  flex-shrink: 0;
 }
 
 .copyBtn:hover {
