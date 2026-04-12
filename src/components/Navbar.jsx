@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../styles/Navbar.module.css';
 
@@ -48,29 +49,34 @@ export default function Navbar() {
 
         <ul className={`${styles.navMenu} ${mobileMenuOpen ? styles.active : ''}`}>
           <li className={styles.navItem}>
-            <a href="/" className={styles.navLink}>
+            <Link to="/" className={styles.navLink}>
               Home
-            </a>
+            </Link>
           </li>
           <li className={styles.navItem}>
-            <a href="/deposit" className={styles.navLink}>
+            <Link to="/deposit" className={styles.navLink}>
               Deposit
-            </a>
+            </Link>
           </li>
           <li className={styles.navItem}>
-            <a href="/betting" className={styles.navLink}>
+            <Link to="/betting" className={styles.navLink}>
               Betting
-            </a>
+            </Link>
           </li>
           <li className={styles.navItem}>
-            <a href="/withdraw" className={styles.navLink}>
+            <Link to="/friendly" className={styles.navLink}>
+              Play with freind
+            </Link>
+          </li>
+          <li className={styles.navItem}>
+            <Link to="/withdraw" className={styles.navLink}>
               Withdrawals
-            </a>
+            </Link>
           </li>
           <li className={styles.navItem}>
-            <a href="/transactions" className={styles.navLink}>
+            <Link to="/transactions" className={styles.navLink}>
               Transactions
-            </a>
+            </Link>
           </li>
         </ul>
 
@@ -84,6 +90,7 @@ export default function Navbar() {
           {user && user.name && (
             <>
               <span className={styles.userName}>{user.name}</span>
+              {user.userId && <span className={styles.userId}>ID: {user.userId}</span>}
               <button className={styles.logoutBtn} onClick={handleLogout}>
                 Logout
               </button>

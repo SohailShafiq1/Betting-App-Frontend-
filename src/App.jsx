@@ -6,6 +6,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Events from './pages/Events';
+import Friendly from './pages/Friendly';
+import FriendlyDashboard from './pages/FriendlyDashboard';
 import Deposit from './pages/Deposit';
 import Withdraw from './pages/Withdraw';
 import Transactions from './pages/Transactions';
@@ -30,6 +32,9 @@ function App() {
           <Routes>
             <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
             <Route path="/event" element={<ProtectedRoute><Events /></ProtectedRoute>} />
+            <Route path="/friendly" element={<ProtectedRoute><Friendly /></ProtectedRoute>} />
+            <Route path="/friendly/dashboard" element={<ProtectedRoute><FriendlyDashboard /></ProtectedRoute>} />
+            <Route path="/friendly/:code" element={<ProtectedRoute><Friendly /></ProtectedRoute>} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/deposit" element={<ProtectedRoute><Deposit /></ProtectedRoute>} />

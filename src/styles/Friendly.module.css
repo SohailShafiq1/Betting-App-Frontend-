@@ -1,0 +1,358 @@
+:root {
+  --page-bg: #040405;
+  --panel-bg: rgba(12, 12, 15, 0.95);
+  --border: rgba(180, 80, 255, 0.15);
+  --text-white: #f8f8ff;
+  --text-muted: rgba(255, 255, 255, 0.65);
+  --accent: #b23bff;
+  --success: #4ade80;
+  --error: #ff7b7b;
+}
+
+.container {
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  background: var(--page-bg);
+  color: var(--text-white);
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.card {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 28px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.header h2 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.header p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-white);
+}
+
+.field input,
+.field select {
+  width: 100%;
+  min-height: 44px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-white);
+}
+
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.radioGroup {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.radioOption {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+}
+
+.radioOption input {
+  accent-color: var(--accent);
+}
+
+.buttonRow {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 8px;
+}
+
+button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ad00ff, #d566ff);
+  color: var(--text-white);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.primaryButton,
+.secondaryButton,
+.outlineButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border 0.2s ease;
+}
+
+.primaryButton {
+  background: linear-gradient(135deg, #ad00ff, #d566ff);
+  color: var(--text-white);
+}
+
+.secondaryButton {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-white);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.outlineButton {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid rgba(178, 59, 255, 0.35);
+}
+
+.primaryButton:hover,
+.secondaryButton:hover,
+.outlineButton:hover,
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(168, 85, 247, 0.17);
+}
+
+.infoBox {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.linkInput {
+  flex: 1;
+  min-width: 240px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-white);
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+.dashboardMain {
+  padding-top: 30px;
+  padding-bottom: 40px;
+}
+
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.pageHeader h2 {
+  margin: 0;
+  font-size: 32px;
+}
+
+.pageHeader p {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  max-width: 600px;
+}
+
+.challengeGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.challengeCard {
+  background: rgba(12, 12, 15, 0.95);
+  border: 1px solid rgba(178, 59, 255, 0.14);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+.challengeCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.challengeCode {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.statusBadge {
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.statusBadge.open {
+  background: rgba(173, 0, 255, 0.12);
+  color: #f7d4ff;
+}
+
+.statusBadge.joined {
+  background: rgba(74, 222, 128, 0.12);
+  color: #b7f5d1;
+}
+
+.statusBadge.finished {
+  background: rgba(255, 123, 123, 0.12);
+  color: #ffd3d3;
+}
+
+.statusBadge.cancelled {
+  background: rgba(255, 171, 0, 0.12);
+  color: #ffe4b5;
+}
+
+.challengeCardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.inviteText {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.statusBox {
+  margin-top: 20px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+.message {
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+}
+
+.success {
+  background: rgba(74, 222, 128, 0.14);
+  color: var(--success);
+}
+
+.error {
+  background: rgba(255, 123, 123, 0.14);
+  color: var(--error);
+}
+
+.challengeInfo {
+  display: grid;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+.challengeRow {
+  display: grid;
+  gap: 12px;
+}
+
+.challengeRowHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.challengeBox {
+  flex: 1;
+  min-width: 220px;
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.challengeBox h4 {
+  margin: 0 0 10px;
+  color: var(--accent);
+}
+
+.inlineRow {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.emptyState {
+  max-width: 720px;
+  margin: 60px auto;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.inlineRow input {
+  flex: 1;
+}
+
+.breaker {
+  margin-top: 24px;
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.02);
+}

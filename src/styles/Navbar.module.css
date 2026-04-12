@@ -148,6 +148,13 @@
   letter-spacing: 0.8px;
 }
 
+.userId {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+  letter-spacing: 0.6px;
+  display: block;
+}
+
 .logoutBtn {
   padding: 8px 18px;
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
