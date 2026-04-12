@@ -47,13 +47,40 @@
   font-size: 14px;
 }
 
-.form input {
+.form input,
+.passwordField input {
   width: 100%;
-  padding: 14px 16px;
+  padding: 14px 48px 14px 16px;
   border-radius: 14px;
   border: 1px solid rgba(160,32,240,0.18);
   background: rgba(255,255,255,0.05);
   color: var(--text);
+  box-sizing: border-box;
+}
+
+.passwordField {
+  position: relative;
+  width: 100%;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 12px;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  border: none;
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .form button {

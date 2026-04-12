@@ -5,6 +5,7 @@ import styles from '../styles/AdminLogin.module.css';
 
 export default function AdminLogin() {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -58,13 +59,23 @@ export default function AdminLogin() {
           </label>
           <label>
             Password
-            <input
-              type="password"
-              name="password"
-              value={credentials.password}
-              onChange={handleChange}
-              required
-            />
+            <div className={styles.passwordField}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                value={credentials.password}
+                onChange={handleChange}
+                required
+              />
+              <button
+                type="button"
+                className={styles.passwordToggle}
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? '🙈' : '👁️'}
+              </button>
+            </div>
           </label>
           <button type="submit" disabled={loading}>
             {loading ? 'Signing in...' : 'Sign In'}

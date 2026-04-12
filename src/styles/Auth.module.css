@@ -82,8 +82,9 @@
   letter-spacing: 1px;
 }
 
-.formGroup input {
-  padding: 14px 16px;
+.formGroup input,
+.passwordField input {
+  padding: 14px 48px 14px 16px;
   background: rgba(0, 0, 0, 0.5);
   border: 2px solid rgba(160, 32, 240, 0.3);
   border-radius: 8px;
@@ -91,6 +92,31 @@
   font-size: 14px;
   transition: all 0.3s ease;
   font-family: inherit;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.passwordField {
+  position: relative;
+  width: 100%;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .formGroup input::placeholder {

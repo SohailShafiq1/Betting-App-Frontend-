@@ -418,6 +418,65 @@
   flex-wrap: wrap;
 }
 
+@media (max-width: 1024px) {
+  .adminPage {
+    grid-template-columns: 1fr;
+  }
+
+  .adminContent {
+    padding: 24px;
+  }
+
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .statsGrid,
+  .teamGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .matchOddsRow,
+  .matchControlsRow,
+  .coinRow,
+  .depositInfo {
+    grid-template-columns: 1fr;
+  }
+
+  .statCard,
+  .teamCard,
+  .settingsForm,
+  .teamForm,
+  .coinRow,
+  .walletSection {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 680px) {
+  .adminContent {
+    padding: 18px;
+  }
+
+  .headerRow h2,
+  .pageHeader h1 {
+    font-size: 26px;
+  }
+
+  .sectionHeader {
+    font-size: 14px;
+  }
+
+  .settingsForm button,
+  .teamForm button,
+  .addCoinBtn,
+  .removeCoinBtn {
+    width: 100%;
+  }
+}
+
 .approveBtn,
 .rejectBtn {
   padding: 6px 10px;
