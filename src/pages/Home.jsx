@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import api from '../api/axios';
 import { useNavigate } from 'react-router-dom';
@@ -8,7 +8,8 @@ import Betslip from '../components/Betslip';
 import { useBetslip } from '../context/BetslipContext';
 import styles from '../styles/Home.module.css';
 
-const bannerImages = ['/banner1.png', '/banner2.png'];
+const desktopBannerImages = ['/banner1.png', '/banner2.png'];
+const mobileBannerImages = ['/basketball.jpeg', '/cricket.jpeg', '/football.jpeg'];
 
 const staticItems = [
   'Favorites',
@@ -18,23 +19,67 @@ const staticItems = [
 
 export default function Home() {
   const [bannerIndex, setBannerIndex] = useState(0);
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showMobileBetslip, setShowMobileBetslip] = useState(false);
   const [categories, setCategories] = useState([]);
   const [tournaments, setTournaments] = useState([]);
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [matchesLoading, setMatchesLoading] = useState(true);
-  const { addToBetslip } = useBetslip();
+  const { addToBetslip, betslips } = useBetslip();
+  const previousBetsCount = useRef(0);
   const navigate = useNavigate();
 
   const API_URL = import.meta.env.VITE_API_URL;
   const backendUrl = API_URL ? API_URL.replace(/\/api$/, '') : '';
+  const activeBannerImages = isMobileView ? mobileBannerImages : desktopBannerImages;
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setBannerIndex((prev) => (prev + 1) % bannerImages.length);
+      setBannerIndex((prev) => (prev + 1) % activeBannerImages.length);
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [activeBannerImages.length]);
+
+  useEffect(() => {
+    setBannerIndex(0);
+  }, [isMobileView]);
+
+  useEffect(() => {
+    if (!isMobileView) {
+      setIsSidebarOpen(false);
+    }
+  }, [isMobileView]);
+
+  useEffect(() => {
+    if (!isMobileView) {
+      setShowMobileBetslip(false);
+      previousBetsCount.current = betslips.length;
+      return;
+    }
+
+    if (betslips.length === 0) {
+      setShowMobileBetslip(false);
+      previousBetsCount.current = 0;
+      return;
+    }
+
+    if (betslips.length > previousBetsCount.current) {
+      setShowMobileBetslip(true);
+    }
+
+    previousBetsCount.current = betslips.length;
+  }, [betslips.length, isMobileView]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -183,6 +228,8 @@ export default function Home() {
     </article>
   );
 
+  const isMobileBetslipOpen = isMobileView && showMobileBetslip && betslips.length > 0;
+
   return (
     <div className={styles.homePage}>
       <div className={styles.topBar}>
@@ -193,11 +240,39 @@ export default function Home() {
       <Navbar />
 
       <div className={styles.layoutGrid}>
-        <aside className={styles.sidebar}>
+        <button
+          type="button"
+          className={styles.sidebarToggle}
+          onClick={() => setIsSidebarOpen((prev) => !prev)}
+          aria-label="Toggle sidebar"
+        >
+          <span className={styles.sidebarToggleLine}></span>
+          <span className={styles.sidebarToggleLine}></span>
+          <span className={styles.sidebarToggleLine}></span>
+        </button>
+
+        {isMobileView && isSidebarOpen && (
+          <button
+            type="button"
+            className={styles.sidebarBackdrop}
+            onClick={() => setIsSidebarOpen(false)}
+            aria-label="Close sidebar"
+          />
+        )}
+
+        <aside className={`${styles.sidebar} ${isMobileView && isSidebarOpen ? styles.sidebarMobileOpen : ''}`}>
           <div className={styles.sidebarHeader}>PARIMATCH</div>
           <div className={styles.sidebarLinks}>
             {staticItems.map((item) => (
-              <button key={item} className={styles.sidebarButton}>{item}</button>
+              <button
+                key={item}
+                className={styles.sidebarButton}
+                onClick={() => {
+                  if (isMobileView) setIsSidebarOpen(false);
+                }}
+              >
+                {item}
+              </button>
             ))}
           </div>
 
@@ -215,7 +290,10 @@ export default function Home() {
                   <button
                     key={category._id}
                     className={styles.categoryButton}
-                    onClick={() => showCategoryMatches(category)}
+                    onClick={() => {
+                      showCategoryMatches(category);
+                      if (isMobileView) setIsSidebarOpen(false);
+                    }}
                   >
                     <img src={logoUrl} alt={category.heading} className={styles.categoryLogo} />
                     <span className={styles.categoryName}>{category.heading}</span>
@@ -238,7 +316,10 @@ export default function Home() {
                 <button
                   key={tournament._id}
                   className={styles.leagueButton}
-                  onClick={() => showTournamentMatches(tournament)}
+                  onClick={() => {
+                    showTournamentMatches(tournament);
+                    if (isMobileView) setIsSidebarOpen(false);
+                  }}
                 >
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left', width: '100%' }}>
                     <div style={{ fontSize: '13px', fontWeight: '600' }}>{tournament.name}</div>
@@ -268,7 +349,7 @@ export default function Home() {
             <div className={styles.bannerFrame}>
               <img
                 key={bannerIndex}
-                src={bannerImages[bannerIndex]}
+                src={activeBannerImages[bannerIndex]}
                 alt="Banner"
                 className={styles.bannerImage}
               />
@@ -443,7 +524,26 @@ export default function Home() {
           </section>
         </main>
 
-        <aside className={styles.betSlip}>
+        {isMobileBetslipOpen && (
+          <button
+            type="button"
+            className={styles.betSlipBackdrop}
+            onClick={() => setShowMobileBetslip(false)}
+            aria-label="Close betslip"
+          />
+        )}
+
+        <aside className={`${styles.betSlip} ${isMobileBetslipOpen ? styles.betSlipMobileOpen : ''}`}>
+          {isMobileBetslipOpen && (
+            <button
+              type="button"
+              className={styles.betSlipClose}
+              onClick={() => setShowMobileBetslip(false)}
+              aria-label="Close betslip"
+            >
+              ×
+            </button>
+          )}
           <Betslip />
         </aside>
       </div>

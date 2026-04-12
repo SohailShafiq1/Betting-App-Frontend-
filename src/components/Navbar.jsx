@@ -1,12 +1,20 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../styles/Navbar.module.css';
 
 export default function Navbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [wallet, setWallet] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  const navItems = [
+    { to: '/', label: 'Home', icon: '⌂' },
+    { to: '/deposit', label: 'Deposit', icon: '⊕' },
+    { to: '/betting', label: 'Betting', icon: '◉' },
+    { to: '/friendly', label: 'Friendly', icon: '◌' },
+    { to: '/withdraw', label: 'Withdraw', icon: '⇣' },
+    { to: '/transactions', label: 'History', icon: '↻' },
+  ];
   
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const API_URL = import.meta.env.VITE_API_URL;
@@ -47,37 +55,17 @@ export default function Navbar() {
           <span className={styles.logoText}>PARIMATCH</span>
         </div>
 
-        <ul className={`${styles.navMenu} ${mobileMenuOpen ? styles.active : ''}`}>
-          <li className={styles.navItem}>
-            <Link to="/" className={styles.navLink}>
-              Home
-            </Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link to="/deposit" className={styles.navLink}>
-              Deposit
-            </Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link to="/betting" className={styles.navLink}>
-              Betting
-            </Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link to="/friendly" className={styles.navLink}>
-              Play with freind
-            </Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link to="/withdraw" className={styles.navLink}>
-              Withdrawals
-            </Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link to="/transactions" className={styles.navLink}>
-              Transactions
-            </Link>
-          </li>
+        <ul className={styles.navMenu}>
+          {navItems.map((item) => (
+            <li className={styles.navItem} key={item.to}>
+              <NavLink
+                to={item.to}
+                className={({ isActive }) => `${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
+              >
+                {item.label}
+              </NavLink>
+            </li>
+          ))}
         </ul>
 
         <div className={styles.navbarUser}>
@@ -98,15 +86,21 @@ export default function Navbar() {
           )}
         </div>
 
-        <div
-          className={`${styles.hamburger} ${mobileMenuOpen ? styles.active : ''}`}
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
       </div>
+
+      <ul className={styles.bottomNav}>
+        {navItems.map((item) => (
+          <li className={styles.bottomNavItem} key={`bottom-${item.to}`}>
+            <NavLink
+              to={item.to}
+              className={({ isActive }) => `${styles.bottomNavLink} ${isActive ? styles.bottomNavLinkActive : ''}`}
+            >
+              <span className={styles.bottomNavIcon}>{item.icon}</span>
+              <span className={styles.bottomNavLabel}>{item.label}</span>
+            </NavLink>
+          </li>
+        ))}
+      </ul>
     </nav>
   );
 }

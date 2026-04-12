@@ -14,6 +14,8 @@ const staticItems = [
 ];
 
 export default function Events() {
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const [tournaments, setTournaments] = useState([]);
   const [matches, setMatches] = useState([]);
@@ -26,6 +28,18 @@ export default function Events() {
 
   const API_URL = import.meta.env.VITE_API_URL;
   const backendUrl = API_URL ? API_URL.replace(/\/api$/, '') : '';
+
+  useEffect(() => {
+    const handleResize = () => setIsMobileView(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (!isMobileView) {
+      setIsSidebarOpen(false);
+    }
+  }, [isMobileView]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -154,11 +168,39 @@ export default function Events() {
       <Navbar />
 
       <div className={styles.layoutGrid}>
-        <aside className={styles.sidebar}>
+        <button
+          type="button"
+          className={styles.sidebarToggle}
+          onClick={() => setIsSidebarOpen((prev) => !prev)}
+          aria-label="Toggle sidebar"
+        >
+          <span className={styles.sidebarToggleLine}></span>
+          <span className={styles.sidebarToggleLine}></span>
+          <span className={styles.sidebarToggleLine}></span>
+        </button>
+
+        {isMobileView && isSidebarOpen && (
+          <button
+            type="button"
+            className={styles.sidebarBackdrop}
+            onClick={() => setIsSidebarOpen(false)}
+            aria-label="Close sidebar"
+          />
+        )}
+
+        <aside className={`${styles.sidebar} ${isMobileView && isSidebarOpen ? styles.sidebarMobileOpen : ''}`}>
           <div className={styles.sidebarHeader}>PARIMATCH</div>
           <div className={styles.sidebarLinks}>
             {staticItems.map((item) => (
-              <button key={item} className={styles.sidebarButton}>{item}</button>
+              <button
+                key={item}
+                className={styles.sidebarButton}
+                onClick={() => {
+                  if (isMobileView) setIsSidebarOpen(false);
+                }}
+              >
+                {item}
+              </button>
             ))}
           </div>
 
@@ -176,7 +218,10 @@ export default function Events() {
                   <button
                     key={category._id}
                     className={styles.categoryButton}
-                    onClick={() => handleCategoryMatches(category)}
+                    onClick={() => {
+                      handleCategoryMatches(category);
+                      if (isMobileView) setIsSidebarOpen(false);
+                    }}
                   >
                     <img src={logoUrl} alt={category.heading} className={styles.categoryLogo} />
                     <span className={styles.categoryName}>{category.heading}</span>
@@ -199,7 +244,10 @@ export default function Events() {
                 <button
                   key={tournament._id}
                   className={styles.leagueButton}
-                  onClick={() => handleTournamentMatches(tournament)}
+                  onClick={() => {
+                    handleTournamentMatches(tournament);
+                    if (isMobileView) setIsSidebarOpen(false);
+                  }}
                 >
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left', width: '100%' }}>
                     <div style={{ fontSize: '13px', fontWeight: '600' }}>{tournament.name}</div>

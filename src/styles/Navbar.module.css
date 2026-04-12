@@ -82,6 +82,10 @@
   display: block;
 }
 
+.navLinkActive {
+  color: var(--color-secondary);
+}
+
 .navLink::before {
   content: '';
   position: absolute;
@@ -101,6 +105,10 @@
 }
 
 .navLink:hover::before {
+  transform: scaleX(1);
+}
+
+.navLinkActive::before {
   transform: scaleX(1);
 }
 
@@ -207,9 +215,62 @@
   transform: rotate(-45deg) translate(7px, -7px);
 }
 
+.bottomNav {
+  display: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bottomNavItem {
+  min-width: 0;
+}
+
+.bottomNavLink {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.62);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+  transition: color 0.2s ease;
+}
+
+.bottomNavIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.bottomNavLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.bottomNavLinkActive {
+  color: var(--color-secondary);
+}
+
+.bottomNavLinkActive .bottomNavIcon {
+  border-color: rgba(199, 125, 255, 0.7);
+  box-shadow: 0 0 12px rgba(160, 32, 240, 0.35);
+}
+
 @media (max-width: 768px) {
   .navbar {
-    position: static;
+    position: sticky;
+    top: 0;
   }
 
   .navbarContainer {
@@ -225,40 +286,32 @@
     font-size: 16px;
   }
 
-  .hamburger {
-    display: flex;
+  .navMenu {
+    display: none;
   }
 
-  .navMenu {
-    position: absolute;
-    top: 60px;
+  .bottomNav {
+    position: fixed;
     left: 0;
     right: 0;
-    flex-direction: column;
-    background: var(--card-bg);
-    border-bottom: 2px solid var(--border-color);
-    gap: 0;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
+    bottom: 0;
+    z-index: 1100;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    background: rgba(10, 10, 13, 0.98);
+    border-top: 1px solid rgba(160, 32, 240, 0.35);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
   }
 
-  .navMenu.active {
-    max-height: 300px;
-    box-shadow: 0 0 20px rgba(160, 32, 240, 0.3);
+  .navbarUser {
+    margin-left: auto;
+    gap: 10px;
   }
 
-  .navItem {
-    width: 100%;
-    border-bottom: 1px solid rgba(160, 32, 240, 0.2);
-  }
-
-  .navLink {
-    padding: 15px 20px;
-    display: block;
-  }
-
-  .navLink::before {
+  .userName,
+  .userId,
+  .logoutBtn {
     display: none;
   }
 }
@@ -313,6 +366,16 @@
   }
 
   .walletAmount {
+    font-size: 12px;
+  }
+
+  .bottomNavLabel {
+    font-size: 9px;
+  }
+
+  .bottomNavIcon {
+    width: 20px;
+    height: 20px;
     font-size: 12px;
   }
 }

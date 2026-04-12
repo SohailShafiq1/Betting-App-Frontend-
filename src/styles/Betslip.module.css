@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  max-height: 100%;
 }
 
 /* Tabs */
@@ -393,9 +394,11 @@
 /* My Bets Tab */
 .myBetsContent {
   padding: 20px;
-  text-align: center;
+  text-align: left;
   color: #999;
   font-size: 0.9rem;
+  overflow-y: auto;
+  max-height: calc(80vh - 60px);
 }
 
 .myBetsContent p {
@@ -407,6 +410,23 @@
   flex-direction: column;
   gap: 12px;
   text-align: left;
+}
+
+.myBetsContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.myBetsContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.myBetsContent::-webkit-scrollbar-thumb {
+  background: #404040;
+  border-radius: 3px;
+}
+
+.myBetsContent::-webkit-scrollbar-thumb:hover {
+  background: #ffa500;
 }
 
 .myBetItem {
@@ -496,7 +516,11 @@
 
 @media (max-width: 768px) {
   .betslipContent {
-    max-height: none;
+    max-height: calc(58vh - 64px);
+  }
+
+  .myBetsContent {
+    max-height: calc(58vh - 64px);
   }
 
   .amountButtons {

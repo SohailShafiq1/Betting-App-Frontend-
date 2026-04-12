@@ -17,18 +17,19 @@
   width: 100%;
   padding: 0;
   margin: 0;
+  color: var(--text-primary);
 }
 
 .depositContainer {
   width: 100%;
-  padding: 40px 20px;
+  padding: 40px 20px 28px;
   box-sizing: border-box;
 }
 
 .depositCard {
   background: var(--card-bg);
   border: 2px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 40px;
   box-shadow: 
     0 0 30px rgba(160, 32, 240, 0.3),
@@ -54,16 +55,16 @@
 
 .depositHeader {
   text-align: center;
-  margin-bottom: 35px;
+  margin-bottom: 28px;
 }
 
 .depositTitle {
   color: var(--text-primary);
-  font-size: 32px;
+  font-size: clamp(24px, 4vw, 34px);
   font-weight: 700;
   margin: 0 0 10px 0;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1.2px;
   background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -126,12 +127,13 @@
 }
 
 .tabsContainer {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
   margin-bottom: 30px;
   background: rgba(0, 0, 0, 0.3);
   padding: 5px;
-  border-radius: 8px;
+  border-radius: 12px;
   border: 1px solid rgba(160, 32, 240, 0.2);
 }
 
@@ -152,15 +154,17 @@
 
 .tabButton {
   flex: 1;
-  padding: 12px 16px;
+  min-height: 56px;
+  padding: 10px 14px;
   background: transparent;
   color: rgba(255, 255, 255, 0.6);
   border: none;
-  border-radius: 6px;
-  font-size: 13px;
+  border-radius: 10px;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.5px;
+  line-height: 1.25;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -438,6 +442,14 @@
   background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
 }
 
+.btnPrimary:focus-visible,
+.tabButton:focus-visible,
+.inputField:focus-visible,
+.copyBtn:focus-visible {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+}
+
 .btnSecondary {
   background: transparent;
   color: var(--color-secondary);
@@ -695,12 +707,29 @@
 }
 
 @media (max-width: 768px) {
+  .depositContainer {
+    padding: 20px 14px 92px;
+  }
+
   .depositCard {
-    padding: 25px;
+    padding: 20px;
+    border-radius: 14px;
   }
 
   .depositTitle {
     font-size: 24px;
+  }
+
+  .tabsContainer {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  .tabButton {
+    min-height: 46px;
+    font-size: 12px;
+    letter-spacing: 0.4px;
   }
 
   .walletSection {
@@ -728,15 +757,19 @@
   .formGroup {
     gap: 6px;
   }
+
+  .securityInfo {
+    padding: 12px;
+  }
 }
 
 @media (max-width: 480px) {
   .depositContainer {
-    padding: 20px 15px;
+    padding: 14px 10px 92px;
   }
 
   .depositCard {
-    padding: 20px;
+    padding: 14px;
   }
 
   .depositTitle {
@@ -759,7 +792,15 @@
 
   .btnPrimary,
   .btnSecondary {
-    padding: 12px 16px;
+    padding: 12px 14px;
     font-size: 12px;
+  }
+
+  .cardElementWrapper,
+  .amountInput,
+  .inputField,
+  .walletAddressBox,
+  .warningBox {
+    border-radius: 10px;
   }
 }

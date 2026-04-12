@@ -194,12 +194,14 @@ const Deposit = () => {
   };
 
   return (
-    <div>
+    <div className={styles.depositPage}>
       <Navbar />
       <div className={styles.depositContainer}>
-        <div className={styles.depositCard}>
-          <h1>💰 Make a Deposit</h1>
-          <p className={styles.subtitle}>Add funds to your betting wallet</p>
+        <section className={styles.depositCard}>
+          <header className={styles.depositHeader}>
+            <h1 className={styles.depositTitle}>Make a Deposit</h1>
+            <p className={styles.depositSubtitle}>Add funds to your betting wallet</p>
+          </header>
 
           <div className={styles.tabsContainer}>
             <button
@@ -289,7 +291,10 @@ const Deposit = () => {
               {success && <div className={styles.successBox}>{success}</div>}
 
               <div className={styles.securityInfo}>
-                🔒 Your payment is processed securely via Stripe. We never store your card details.
+                <span className={styles.securityIcon}>🔒</span>
+                <p className={styles.securityText}>
+                  Your payment is processed securely via Stripe. We never store your card details.
+                </p>
               </div>
 
               <button
@@ -426,7 +431,7 @@ const Deposit = () => {
               <p>🏦 Bank transfers coming soon!</p>
             </div>
           )}
-        </div>
+        </section>
       </div>
     </div>
   );
