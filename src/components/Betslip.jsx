@@ -6,7 +6,6 @@ import styles from '../styles/Betslip.module.css';
 export default function Betslip() {
   const { betslips, removeFromBetslip, updateBetAmount, clearBetslip } = useBetslip();
   const [activeTab, setActiveTab] = useState('betslip');
-  const [betType, setBetType] = useState('single');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -143,27 +142,11 @@ export default function Betslip() {
 
       {activeTab === 'betslip' ? (
         <div className={styles.betslipContent}>
-          {/* Bet Type Selection */}
-          <div className={styles.betTypeContainer}>
-            <button
-              className={`${styles.betTypeBtn} ${betType === 'single' ? styles.betTypeBtnActive : ''}`}
-              onClick={() => setBetType('single')}
-            >
-              Single bet
-            </button>
-            <button
-              className={`${styles.betTypeBtn} ${betType === 'parlay' ? styles.betTypeBtnActive : ''}`}
-              onClick={() => setBetType('parlay')}
-            >
-              Parlay
-            </button>
-            <button
-              className={`${styles.betTypeBtn} ${betType === 'system' ? styles.betTypeBtnActive : ''}`}
-              onClick={() => setBetType('system')}
-            >
-              System
-            </button>
-          </div>
+          {/* <div className={styles.betTypeContainer}>
+            <button className={`${styles.betTypeBtn} ${styles.betTypeBtnActive}`}>Single bet</button>
+            <button className={styles.betTypeBtn}>Parlay</button>
+            <button className={styles.betTypeBtn}>System</button>
+          </div> */}
 
           {betslips.length === 0 ? (
             <div className={styles.emptyState}>

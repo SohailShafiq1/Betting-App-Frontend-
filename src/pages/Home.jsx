@@ -203,27 +203,29 @@ export default function Home() {
         <span className={styles.eventMeta}>{match.tournament?.name || 'Tournament'}</span>
         <span className={styles.eventStatus}>{formatMatchStatus(match)}</span>
       </div>
-      <div className={styles.eventTeamsRow}>
-        <div className={styles.teamName}>{match.teamAName}</div>
-        <div className={styles.teamName}>{match.teamBName}</div>
-      </div>
-      <div className={styles.eventOddsRow}>
-        <button
-          type="button"
-          className={styles.eventOdds}
-          onClick={() => handleOddClick(match, 'A')}
-        >
-          <div className={styles.oddsValue}>{Number(match.oddsA).toFixed(2)}</div>
-          <div className={styles.oddsTag}>1</div>
-        </button>
-        <button
-          type="button"
-          className={styles.eventOdds}
-          onClick={() => handleOddClick(match, 'B')}
-        >
-          <div className={styles.oddsValue}>{Number(match.oddsB).toFixed(2)}</div>
-          <div className={styles.oddsTag}>2</div>
-        </button>
+      <div className={styles.eventTeamsOddsRow}>
+        <div className={styles.eventTeamCol}>
+          <div className={styles.teamName}>{match.teamAName}</div>
+          <button
+            type="button"
+            className={styles.eventOdds}
+            onClick={() => handleOddClick(match, 'A')}
+          >
+            <div className={styles.oddsValue}>{Number(match.oddsA).toFixed(2)}</div>
+            <div className={styles.oddsTag}>1</div>
+          </button>
+        </div>
+        <div className={styles.eventTeamCol}>
+          <div className={styles.teamName}>{match.teamBName}</div>
+          <button
+            type="button"
+            className={styles.eventOdds}
+            onClick={() => handleOddClick(match, 'B')}
+          >
+            <div className={styles.oddsValue}>{Number(match.oddsB).toFixed(2)}</div>
+            <div className={styles.oddsTag}>2</div>
+          </button>
+        </div>
       </div>
     </article>
   );
@@ -232,10 +234,10 @@ export default function Home() {
 
   return (
     <div className={styles.homePage}>
-      <div className={styles.topBar}>
+      {/* <div className={styles.topBar}>
         <span>Win your share of <strong>200,000 USDT & 24K Coins</strong></span>
         <button className={styles.closeButton}>×</button>
-      </div>
+      </div> */}
 
       <Navbar />
 
@@ -354,13 +356,13 @@ export default function Home() {
                 className={styles.bannerImage}
               />
               <div className={styles.bannerOverlay}>
-                <div className={styles.matchScore}>106 : 162</div>
+                {/* <div className={styles.matchScore}>106 : 162</div>
                 <div className={styles.matchTitle}>Delhi Capitals × Mumbai Indians</div>
-                <div className={styles.matchSubtitle}>India Premier League</div>
+                <div className={styles.matchSubtitle}>India Premier League</div> */}
               </div>
             </div>
 
-            <div className={styles.bannerOdds}>
+            {/* <div className={styles.bannerOdds}>
               <div className={styles.oddsTile}>
                 <div className={styles.oddsValue}>1.02</div>
                 <div className={styles.oddsLabel}>OVER</div>
@@ -373,15 +375,15 @@ export default function Home() {
                 <div className={styles.oddsValue}>2.75</div>
                 <div className={styles.oddsLabel}>UNDER</div>
               </div>
-            </div>
+            </div> */}
           </section>
 
           {/* <RecentMatches /> */}
 
-          <section className={styles.categorySection}>
+          {/* <section className={styles.categorySection}>
             <div className={styles.categoryCard}>SPORTS</div>
             <div className={styles.categoryCard}>ESPORTS</div>
-          </section>
+          </section> */}
 
           <section className={styles.eventsSection}>
             <div className={styles.eventsHeader}>

@@ -1,0 +1,59 @@
+:root {
+  --page-bg: #040405;
+  --text-main: #f8f8ff;
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --accent: #ffb400;
+}
+
+.page {
+  min-height: 100vh;
+  background:
+    radial-gradient(1100px 650px at 95% -15%, rgba(178, 59, 255, 0.14), transparent 60%),
+    radial-gradient(900px 480px at -5% 0%, rgba(255, 180, 0, 0.08), transparent 52%),
+    var(--page-bg);
+  color: var(--text-main);
+}
+
+.main {
+  width: min(1100px, 100% - 32px);
+  margin: 0 auto;
+  padding: 26px 0 calc(24px + env(safe-area-inset-bottom));
+  display: grid;
+  gap: 16px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 34px;
+  letter-spacing: 0.2px;
+}
+
+.header p {
+  margin: 8px 0 0;
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.betslipPanel {
+  min-height: 70vh;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 768px) {
+  .main {
+    width: min(1100px, 100% - 16px);
+    padding-top: 18px;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom));
+  }
+
+  .header h1 {
+    font-size: 26px;
+  }
+
+  .betslipPanel {
+    min-height: 60vh;
+  }
+}

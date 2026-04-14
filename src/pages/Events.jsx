@@ -300,31 +300,29 @@ export default function Events() {
                       <span className={styles.matchRowStatus}>{formatMatchStatus(match)}</span>
                     </div>
                     <div className={styles.matchRowBody}>
-                      <div className={styles.matchRowTeams}>
-                        <div className={styles.matchRowTeamLine}>
-                          <span>{match.teamAName}</span>
+                      <div className={styles.matchRowTeamsOdds}>
+                        <div className={styles.matchRowTeamCol}>
+                          <div className={styles.matchRowTeamName}>{match.teamAName}</div>
+                          <button
+                            type="button"
+                            className={styles.matchRowOddButton}
+                            onClick={() => handleOddClick(match, 'A')}
+                          >
+                            <span>{Number(match.oddsA).toFixed(2)}</span>
+                            <small>1</small>
+                          </button>
                         </div>
-                        <div className={styles.matchRowTeamLine}>
-                          <span>{match.teamBName}</span>
+                        <div className={styles.matchRowTeamCol}>
+                          <div className={styles.matchRowTeamName}>{match.teamBName}</div>
+                          <button
+                            type="button"
+                            className={styles.matchRowOddButton}
+                            onClick={() => handleOddClick(match, 'B')}
+                          >
+                            <span>{Number(match.oddsB).toFixed(2)}</span>
+                            <small>2</small>
+                          </button>
                         </div>
-                      </div>
-                      <div className={styles.matchRowOdds}>
-                        <button
-                          type="button"
-                          className={styles.matchRowOddButton}
-                          onClick={() => handleOddClick(match, 'A')}
-                        >
-                          <span>{Number(match.oddsA).toFixed(2)}</span>
-                          <small>1</small>
-                        </button>
-                        <button
-                          type="button"
-                          className={styles.matchRowOddButton}
-                          onClick={() => handleOddClick(match, 'B')}
-                        >
-                          <span>{Number(match.oddsB).toFixed(2)}</span>
-                          <small>2</small>
-                        </button>
                       </div>
                     </div>
                     <div className={styles.matchRowMeta}>{getCategoryName(match)}</div>

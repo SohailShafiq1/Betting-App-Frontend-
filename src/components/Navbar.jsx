@@ -51,8 +51,8 @@ export default function Navbar() {
     <nav className={styles.navbar}>
       <div className={styles.navbarContainer}>
         <div className={styles.navbarLogo}>
-          <img src="/Logo.svg" alt="Parimatch Logo" className={styles.logoImg} />
-          <span className={styles.logoText}>PARIMATCH</span>
+          {/* <img src="/Logo.svg" alt="Parimatch Logo" className={styles.logoImg} /> */}
+          <span className={styles.logoText}>WINORA</span>
         </div>
 
         <ul className={styles.navMenu}>

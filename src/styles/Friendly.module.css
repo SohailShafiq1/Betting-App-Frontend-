@@ -11,21 +11,24 @@
 
 .container {
   width: 100%;
-  min-height: calc(100vh - 70px);
-  background: var(--page-bg);
+  min-height: 100vh;
+  background:
+    radial-gradient(1200px 700px at 80% -20%, rgba(178, 59, 255, 0.16), transparent 60%),
+    radial-gradient(900px 500px at 0% 0%, rgba(94, 35, 154, 0.2), transparent 55%),
+    var(--page-bg);
   color: var(--text-white);
-  padding: 24px;
+  padding: 0 20px 34px;
   box-sizing: border-box;
 }
 
 .card {
-  background: var(--panel-bg);
-  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(18, 18, 24, 0.96), rgba(12, 12, 16, 0.96));
+  border: 1px solid rgba(178, 59, 255, 0.2);
   border-radius: 24px;
-  max-width: 760px;
+  max-width: 900px;
   margin: 0 auto;
-  padding: 28px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  padding: 30px;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.4);
 }
 
 .header {
@@ -45,7 +48,17 @@
 
 .form {
   display: grid;
-  gap: 16px;
+  gap: 18px;
+  margin-top: 8px;
+}
+
+.form label {
+  display: grid;
+  gap: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .field {
@@ -53,27 +66,36 @@
   gap: 8px;
 }
 
-.field label {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-white);
-}
-
 .field input,
-.field select {
+.field select,
+.form input,
+.form select,
+.linkInput {
   width: 100%;
-  min-height: 44px;
+  min-height: 46px;
   padding: 12px 14px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.045);
   color: var(--text-white);
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .field input:focus,
-.field select:focus {
+.field select:focus,
+.form input:focus,
+.form select:focus,
+.linkInput:focus {
   outline: none;
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(178, 59, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.form select option {
+  background: #101016;
+  color: #ffffff;
 }
 
 .radioGroup {
@@ -88,9 +110,15 @@
   gap: 10px;
   padding: 12px 14px;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
   cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.radioOption:hover {
+  border-color: rgba(178, 59, 255, 0.45);
+  background: rgba(178, 59, 255, 0.1);
 }
 
 .radioOption input {
@@ -103,17 +131,6 @@
   flex-wrap: wrap;
   align-items: center;
   margin-top: 8px;
-}
-
-button {
-  padding: 12px 18px;
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #ad00ff, #d566ff);
-  color: var(--text-white);
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .primaryButton,
@@ -134,26 +151,35 @@ button {
 .primaryButton {
   background: linear-gradient(135deg, #ad00ff, #d566ff);
   color: var(--text-white);
+  border: 1px solid transparent;
 }
 
 .secondaryButton {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.07);
   color: var(--text-white);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .outlineButton {
   background: transparent;
-  color: var(--accent);
-  border: 1px solid rgba(178, 59, 255, 0.35);
+  color: #d9a8ff;
+  border: 1px solid rgba(178, 59, 255, 0.5);
 }
 
 .primaryButton:hover,
 .secondaryButton:hover,
-.outlineButton:hover,
-button:hover {
+.outlineButton:hover {
   transform: translateY(-2px);
   box-shadow: 0 16px 30px rgba(168, 85, 247, 0.17);
+}
+
+.primaryButton:disabled,
+.secondaryButton:disabled,
+.outlineButton:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .infoBox {
@@ -175,6 +201,8 @@ button:hover {
 }
 
 .dashboardMain {
+  max-width: 1240px;
+  margin: 0 auto;
   padding-top: 30px;
   padding-bottom: 40px;
 }
@@ -190,13 +218,15 @@ button:hover {
 
 .pageHeader h2 {
   margin: 0;
-  font-size: 32px;
+  font-size: 34px;
+  letter-spacing: 0.2px;
 }
 
 .pageHeader p {
   margin: 8px 0 0;
   color: var(--text-muted);
-  max-width: 600px;
+  max-width: 700px;
+  line-height: 1.55;
 }
 
 .challengeGrid {
@@ -207,10 +237,16 @@ button:hover {
 
 .challengeCard {
   background: rgba(12, 12, 15, 0.95);
-  border: 1px solid rgba(178, 59, 255, 0.14);
+  border: 1px solid rgba(178, 59, 255, 0.22);
   border-radius: 24px;
   padding: 24px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.24);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.challengeCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(214, 102, 255, 0.4);
 }
 
 .challengeCardHeader {
@@ -276,10 +312,6 @@ button:hover {
   border-radius: 14px;
 }
 
-button:hover {
-  transform: translateY(-2px);
-}
-
 .message {
   padding: 12px 16px;
   border-radius: 14px;
@@ -304,7 +336,34 @@ button:hover {
 
 .challengeRow {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+}
+
+.challengeRow > div {
+  min-width: 0;
+  padding: 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.challengeRow h4 {
+  margin: 0 0 8px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 12px;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+}
+
+.challengeRow p {
+  margin: 0 0 6px;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.45;
+}
+
+.challengeRow p:last-child {
+  margin-bottom: 0;
 }
 
 .challengeRowHeader {
@@ -326,6 +385,15 @@ button:hover {
 .challengeBox h4 {
   margin: 0 0 10px;
   color: var(--accent);
+}
+
+.challengeBox p {
+  margin: 0 0 8px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.challengeBox p:last-child {
+  margin-bottom: 0;
 }
 
 .inlineRow {
@@ -355,4 +423,57 @@ button:hover {
   padding: 18px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.02);
+}
+
+@media (max-width: 1024px) {
+  .challengeGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .pageHeader h2 {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 14px calc(96px + env(safe-area-inset-bottom));
+  }
+
+  .card {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .dashboardMain {
+    padding-top: 20px;
+  }
+
+  .pageHeader {
+    margin-bottom: 20px;
+    gap: 14px;
+  }
+
+  .pageHeader h2 {
+    font-size: 26px;
+  }
+
+  .challengeRow {
+    grid-template-columns: 1fr;
+  }
+
+  .inlineRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .linkInput {
+    min-width: 0;
+  }
+
+  .primaryButton,
+  .secondaryButton,
+  .outlineButton {
+    width: 100%;
+  }
 }
