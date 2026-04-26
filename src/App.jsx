@@ -21,6 +21,11 @@ import AdminTeams from './pages/AdminTeams';
 import AdminTournaments from './pages/AdminTournaments';
 import AdminCategories from './pages/AdminCategories';
 import AdminWithdrawals from './pages/AdminWithdrawals';
+import AdminUsers from './pages/AdminUsers';
+
+import AdminFriendlyBets from './pages/AdminFriendlyBets';
+import AdminOpenBets from './pages/AdminOpenBets';
+
 
 // Initialize Stripe with your publishable key
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
@@ -81,6 +86,30 @@ function App() {
               element={
                 <ProtectedRoute role="admin">
                   <AdminCategories />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/users"
+              element={
+                <ProtectedRoute role="admin">
+                  <AdminUsers />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/open-bets"
+              element={
+                <ProtectedRoute role="admin">
+                  <AdminOpenBets />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/friendly-bets"
+              element={
+                <ProtectedRoute role="admin">
+                  <AdminFriendlyBets />
                 </ProtectedRoute>
               }
             />

@@ -9,7 +9,7 @@ import { useBetslip } from '../context/BetslipContext';
 import styles from '../styles/Home.module.css';
 
 const desktopBannerImages = ['/banner1.png', '/banner2.png'];
-const mobileBannerImages = ['/basketball.jpeg', '/cricket.jpeg', '/football.jpeg'];
+const mobileBannerImages = ['/cricket.jpeg',];
 
 const staticItems = [
   'Favorites',

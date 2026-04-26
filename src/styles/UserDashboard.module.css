@@ -47,6 +47,26 @@
   margin-bottom: 10px;
 }
 
+.logoutBtn {
+  margin-top: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.logoutBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(160,32,240,0.2);
+}
+
 .actionCards {
   display: grid;
   gap: 20px;

@@ -8,12 +8,27 @@ export default function AdminCategories() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null);
   const [formData, setFormData] = useState({ heading: '', logo: null });
   const [submitting, setSubmitting] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_URL;
   const token = localStorage.getItem('token');
   const backendUrl = API_URL ? API_URL.replace(/\/api$/, '') : '';
+
+  const resetForm = () => {
+    setFormData({ heading: '', logo: null });
+    setEditingCategory(null);
+    setShowForm(false);
+    setError('');
+  };
+
+  const handleEdit = (category) => {
+    setFormData({ heading: category.heading || '', logo: null });
+    setEditingCategory(category);
+    setShowForm(true);
+    setError('');
+  };
 
   useEffect(() => {
     fetchCategories();
@@ -52,7 +67,7 @@ export default function AdminCategories() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.heading.trim() || !formData.logo) {
+    if (!formData.heading.trim() || (!formData.logo && !editingCategory)) {
       setError('Category heading and logo are required');
       return;
     }
@@ -61,22 +76,31 @@ export default function AdminCategories() {
       setSubmitting(true);
       const formDataToSend = new FormData();
       formDataToSend.append('heading', formData.heading);
-      formDataToSend.append('logo', formData.logo);
+      if (formData.logo) {
+        formDataToSend.append('logo', formData.logo);
+      }
 
-      await axios.post(`${API_URL}/categories`, formDataToSend, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      if (editingCategory) {
+        await axios.put(`${API_URL}/categories/${editingCategory._id}`, formDataToSend, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      } else {
+        await axios.post(`${API_URL}/categories`, formDataToSend, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      }
 
-      setFormData({ heading: '', logo: null });
-      setShowForm(false);
-      setError('');
+      resetForm();
       await fetchCategories();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create category');
-      console.error('Error creating category:', err);
+      setError(err.response?.data?.message || (editingCategory ? 'Failed to update category' : 'Failed to create category'));
+      console.error('Error saving category:', err);
     } finally {
       setSubmitting(false);
     }
@@ -120,8 +144,17 @@ export default function AdminCategories() {
             <h2>Categories</h2>
             <p>Create categories to organize your tournaments.</p>
           </div>
-          <button className={styles.primaryBtn} onClick={() => setShowForm(!showForm)}>
-            {showForm ? '✕ Cancel' : '+ Add Category'}
+          <button
+            className={styles.primaryBtn}
+            onClick={() => {
+              if (showForm && editingCategory) {
+                resetForm();
+                return;
+              }
+              setShowForm((prev) => !prev);
+            }}
+          >
+            {showForm ? (editingCategory ? '✕ Cancel edit' : '✕ Cancel') : '+ Add Category'}
           </button>
         </div>
 
@@ -129,7 +162,7 @@ export default function AdminCategories() {
 
       {showForm && (
         <div className={styles.formCard}>
-          <h2>Create New Category</h2>
+          <h2>{editingCategory ? 'Edit Category' : 'Create New Category'}</h2>
           <form onSubmit={handleSubmit} className={styles.form}>
             <div className={styles.formGroup}>
               <label htmlFor="heading">Category Heading *</label>
@@ -144,7 +177,7 @@ export default function AdminCategories() {
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="logo">Category Logo *</label>
+              <label htmlFor="logo">Category Logo {editingCategory ? '(leave blank to keep current)' : '*'}</label>
               <input
                 type="file"
                 id="logo"
@@ -190,18 +223,23 @@ export default function AdminCategories() {
                   </p>
                 </div>
 
-                <button
-                  className={styles.deleteBtn}
-                  onClick={() => handleDelete(category._id)}
-                  disabled={category.tournamentCount > 0}
-                  title={
-                    category.tournamentCount > 0
-                      ? 'Cannot delete category with tournaments'
-                      : 'Delete category'
-                  }
-                >
-                  🗑️ Delete
-                </button>
+                <div className={styles.cardActions}>
+                  <button type="button" className={styles.secondaryBtn} onClick={() => handleEdit(category)}>
+                    ✏️ Edit
+                  </button>
+                  <button
+                    className={styles.deleteBtn}
+                    onClick={() => handleDelete(category._id)}
+                    disabled={category.tournamentCount > 0}
+                    title={
+                      category.tournamentCount > 0
+                        ? 'Cannot delete category with tournaments'
+                        : 'Delete category'
+                    }
+                  >
+                    🗑️ Delete
+                  </button>
+                </div>
               </div>
             );
           })}

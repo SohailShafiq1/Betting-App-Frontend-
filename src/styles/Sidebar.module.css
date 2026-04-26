@@ -25,6 +25,25 @@
   gap: 14px;
 }
 
+.logoutButton {
+  margin-top: 28px;
+  width: 100%;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 10px 30px rgba(160,32,240,0.24);
+}
+
+.logoutButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 36px rgba(160,32,240,0.28);
+}
+
 .link {
   display: block;
   padding: 14px 18px;

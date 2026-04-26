@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { BiUser } from 'react-icons/bi';
 import axios from 'axios';
 import styles from '../styles/Navbar.module.css';
 
 export default function Navbar() {
   const [wallet, setWallet] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const profileRef = useRef(null);
 
   const navItems = [
     { to: '/', label: 'Home', icon: '⌂' },
@@ -21,6 +24,17 @@ export default function Navbar() {
 
   useEffect(() => {
     fetchUserWallet();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setProfileOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   const fetchUserWallet = async () => {
@@ -76,13 +90,33 @@ export default function Navbar() {
             </div>
           )}
           {user && user.name && (
-            <>
-              <span className={styles.userName}>{user.name}</span>
-              {user.userId && <span className={styles.userId}>ID: {user.userId}</span>}
-              <button className={styles.logoutBtn} onClick={handleLogout}>
-                Logout
+            <div className={styles.profileWrapper} ref={profileRef}>
+              <button
+                type="button"
+                className={styles.profileToggle}
+                onClick={() => setProfileOpen((prev) => !prev)}
+                aria-label="Open profile menu"
+              >
+                <BiUser />
               </button>
-            </>
+
+              <div className={styles.profileTextGroup}>
+                <span className={styles.userName}>{user.name}</span>
+                {user.userId && <span className={styles.userId}>ID: {user.userId}</span>}
+              </div>
+
+              {profileOpen && (
+                <div className={styles.profileMenu}>
+                  <div className={styles.profileMenuHeader}>
+                    <strong>{user.name}</strong>
+                    <span>{user.email}</span>
+                  </div>
+                  <button type="button" className={styles.profileMenuLogout} onClick={handleLogout}>
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </div>
 

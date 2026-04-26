@@ -120,6 +120,85 @@
   flex-shrink: 0;
 }
 
+.profileWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profileToggle {
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 16px;
+}
+
+.profileToggle:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+}
+
+.profileTextGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.profileMenu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 220px;
+  background: rgba(16, 16, 20, 0.98);
+  border: 1px solid rgba(160, 32, 240, 0.25);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  z-index: 1100;
+}
+
+.profileMenuHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.profileMenuHeader strong {
+  font-size: 14px;
+}
+
+.profileMenuHeader span {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+}
+
+.profileMenuLogout {
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+  color: var(--text-primary);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.profileMenuLogout:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(160, 32, 240, 0.2);
+}
+
 .walletDisplay {
   display: flex;
   flex-direction: column;
@@ -310,9 +389,16 @@
   }
 
   .userName,
-  .userId,
-  .logoutBtn {
+  .userId {
     display: none;
+  }
+
+  .logoutBtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    font-size: 11px;
   }
 }
 

@@ -17,6 +17,7 @@ export default function AdminTeams() {
   const [matchTime, setMatchTime] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [editingMatch, setEditingMatch] = useState(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -33,6 +34,34 @@ export default function AdminTeams() {
     };
     loadData();
   }, []);
+
+  const resetMatchForm = () => {
+    setSelectedTournament('');
+    setTeamAName('');
+    setTeamBName('');
+    setOddsA(1.8);
+    setOddsB(1.8);
+    setTeamALogo(null);
+    setTeamBLogo(null);
+    setMatchDate('');
+    setMatchTime('');
+    setEditingMatch(null);
+    setError('');
+  };
+
+  const handleEditMatch = (match) => {
+    setSelectedTournament(match.tournament?._id || match.tournament || '');
+    setTeamAName(match.teamAName || '');
+    setTeamBName(match.teamBName || '');
+    setOddsA(match.oddsA || 1.8);
+    setOddsB(match.oddsB || 1.8);
+    setMatchDate(match.matchDate ? new Date(match.matchDate).toISOString().slice(0, 10) : '');
+    setMatchTime(match.matchTime || '');
+    setTeamALogo(null);
+    setTeamBLogo(null);
+    setEditingMatch(match);
+    setError('');
+  };
 
   const handleAddMatch = async (e) => {
     e.preventDefault();
@@ -56,21 +85,22 @@ export default function AdminTeams() {
       if (teamALogo) formData.append('teamALogo', teamALogo);
       if (teamBLogo) formData.append('teamBLogo', teamBLogo);
 
-      const response = await api.post('/matches', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      if (editingMatch) {
+        const response = await api.put(`/matches/${editingMatch._id}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
 
-      setMatches((prev) => [response.data, ...prev]);
-      setTeamAName('');
-      setTeamBName('');
-      setOddsA(1.8);
-      setOddsB(1.8);
-      setMatchDate('');
-      setMatchTime('');
-      setTeamALogo(null);
-      setTeamBLogo(null);
+        setMatches((prev) => prev.map((item) => (item._id === response.data._id ? response.data : item)));
+      } else {
+        const response = await api.post('/matches', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+        setMatches((prev) => [response.data, ...prev]);
+      }
+
+      resetMatchForm();
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create match');
+      setError(err.response?.data?.message || (editingMatch ? 'Failed to update match' : 'Failed to create match'));
     } finally {
       setLoading(false);
     }
@@ -179,9 +209,16 @@ export default function AdminTeams() {
           </label>
 
           {error && <div className={styles.error}>{error}</div>}
-          <button type="submit" disabled={loading}>
-            {loading ? 'Creating...' : 'Add Match'}
-          </button>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <button type="submit" disabled={loading} className={styles.primaryBtn}>
+              {loading ? (editingMatch ? 'Updating...' : 'Saving...') : editingMatch ? 'Update Match' : 'Add Match'}
+            </button>
+            {editingMatch && (
+              <button type="button" className={styles.secondaryBtn} onClick={resetMatchForm}>
+                ✕ Cancel edit
+              </button>
+            )}
+          </div>
         </form>
 
         <div className={styles.teamGrid}>
@@ -204,7 +241,14 @@ export default function AdminTeams() {
                       </p>
                     )}
                   </div>
-                  <button onClick={() => handleDelete(match._id)}>Delete</button>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                    <button type="button" className={styles.secondaryBtn} onClick={() => handleEditMatch(match)}>
+                      ✏️ Edit
+                    </button>
+                    <button type="button" className={styles.deleteBtn} onClick={() => handleDelete(match._id)}>
+                      Delete
+                    </button>
+                  </div>
                 </div>
                 <div className={styles.matchControlsRow}>
                   <label className={styles.matchControlLabel}>

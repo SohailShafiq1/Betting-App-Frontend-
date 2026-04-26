@@ -9,11 +9,31 @@ export default function AdminTournaments() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
+  const [editingTournament, setEditingTournament] = useState(null);
   const [formData, setFormData] = useState({ category: '', name: '', description: '', status: 'UPCOMING' });
   const [submitting, setSubmitting] = useState(false);
 
   const API_URL = import.meta.env.VITE_API_URL;
   const token = localStorage.getItem('token');
+
+  const resetForm = () => {
+    setFormData({ category: '', name: '', description: '', status: 'UPCOMING' });
+    setEditingTournament(null);
+    setShowForm(false);
+    setError('');
+  };
+
+  const handleEdit = (tournament) => {
+    setFormData({
+      category: tournament.category?._id || tournament.category || '',
+      name: tournament.name || '',
+      description: tournament.description || '',
+      status: tournament.status || 'UPCOMING',
+    });
+    setEditingTournament(tournament);
+    setShowForm(true);
+    setError('');
+  };
 
   useEffect(() => {
     const loadData = async () => {
@@ -56,22 +76,30 @@ export default function AdminTournaments() {
 
     try {
       setSubmitting(true);
-      await axios.post(`${API_URL}/tournaments`, formData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
 
-      setFormData({ category: '', name: '', description: '', status: 'UPCOMING' });
-      setShowForm(false);
+      if (editingTournament) {
+        await axios.put(`${API_URL}/tournaments/${editingTournament._id}`, formData, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      } else {
+        await axios.post(`${API_URL}/tournaments`, formData, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      }
+
       setError('');
-      
-      // Reload tournaments
+      resetForm();
+
       const response = await axios.get(`${API_URL}/tournaments`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTournaments(response.data.data || []);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create tournament');
-      console.error('Error creating tournament:', err);
+      setError(
+        err.response?.data?.message ||
+          (editingTournament ? 'Failed to update tournament' : 'Failed to create tournament')
+      );
+      console.error('Error saving tournament:', err);
     } finally {
       setSubmitting(false);
     }
@@ -120,8 +148,14 @@ export default function AdminTournaments() {
             <h2>Tournaments</h2>
             <p>Create tournaments and organize your matches by category.</p>
           </div>
-          <button className={styles.primaryBtn} onClick={() => setShowForm(!showForm)}>
-            {showForm ? '✕ Cancel' : '+ Add Tournament'}
+          <button className={styles.primaryBtn} onClick={() => {
+            if (showForm && editingTournament) {
+              resetForm();
+              return;
+            }
+            setShowForm((prev) => !prev);
+          }}>
+            {showForm ? (editingTournament ? '✕ Cancel edit' : '✕ Cancel') : '+ Add Tournament'}
           </button>
         </div>
 
@@ -222,14 +256,20 @@ export default function AdminTournaments() {
                   <span className={styles.matchLabel}>Matches:</span>
                   <span className={styles.matchValue}>{tournament.matchCount || 0}</span>
                 </div>
-                <button
-                  className={styles.deleteBtn}
-                  onClick={() => handleDelete(tournament._id)}
-                  disabled={tournament.matchCount > 0}
-                  title={tournament.matchCount > 0 ? 'Cannot delete tournament with matches' : 'Delete tournament'}
-                >
-                  🗑️ Delete
-                </button>
+                <div className={styles.cardActions}>
+                  <button type="button" className={styles.secondaryBtn} onClick={() => handleEdit(tournament)}>
+                    ✏️ Edit
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.deleteBtn}
+                    onClick={() => handleDelete(tournament._id)}
+                    disabled={tournament.matchCount > 0}
+                    title={tournament.matchCount > 0 ? 'Cannot delete tournament with matches' : 'Delete tournament'}
+                  >
+                    🗑️ Delete
+                  </button>
+                </div>
               </div>
             </div>
           ))}

@@ -9,6 +9,12 @@ export default function Sidebar() {
     setMenuOpen(false);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/login';
+  };
+
   return (
     <aside className={`${styles.sidebar} ${menuOpen ? styles.sidebarOpen : ''}`}>
       {menuOpen && <div className={styles.backdrop} onClick={closeMenu} />}
@@ -38,6 +44,18 @@ export default function Sidebar() {
           <span className={styles.icon}>🏦</span>
           Withdrawals
         </NavLink>
+        <NavLink to="/admin/users" onClick={closeMenu} className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}>
+          <span className={styles.icon}>👥</span>
+          Users
+        </NavLink>
+        <NavLink to="/admin/open-bets" onClick={closeMenu} className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}>
+          <span className={styles.icon}>🎯</span>
+          Bets Open
+        </NavLink>
+        <NavLink to="/admin/friendly-bets" onClick={closeMenu} className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}>
+          <span className={styles.icon}>🤝</span>
+          Friendly Bets
+        </NavLink>
         <NavLink to="/admin/categories" onClick={closeMenu} className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}>
           <span className={styles.icon}>📂</span>
           Categories
@@ -55,6 +73,9 @@ export default function Sidebar() {
           Settings
         </NavLink>
       </nav>
+      <button type="button" className={styles.logoutButton} onClick={handleLogout}>
+        Logout
+      </button>
     </aside>
   );
 }

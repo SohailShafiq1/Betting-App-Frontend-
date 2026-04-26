@@ -10,6 +10,12 @@ export default function UserDashboard() {
   const [error, setError] = useState('');
   const user = JSON.parse(localStorage.getItem('user') || '{}');
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/login';
+  };
+
   useEffect(() => {
     setWallet(user.wallet || 0);
 
@@ -37,6 +43,9 @@ export default function UserDashboard() {
           <span>Wallet Balance</span>
           <strong>${wallet.toFixed(2)}</strong>
           <p>Available funds for betting and payouts.</p>
+          <button type="button" className={styles.logoutBtn} onClick={handleLogout}>
+            Logout
+          </button>
         </div>
         <div className={styles.actionCards}>
           <div className={styles.smallCard}>
