@@ -9,6 +9,8 @@ const Deposit = () => {
   const stripe = useStripe();
   const elements = useElements();
 
+  const depositAddress = 'TKosmzd25Ue99BPba82dbv3TR8R8qKd1GF';
+
   const [amount, setAmount] = useState('');
   const [cardholderName, setCardholderName] = useState('');
   const [loading, setLoading] = useState(false);
@@ -324,6 +326,7 @@ const Deposit = () => {
                   </p>
                 </div>
               )}
+              {/* Backend-driven deposit wallet details are hidden for now.
               <div className={styles.paymentRow}>
                 <div className={styles.paymentField}>
                   <span className={styles.fieldLabel}>Currency</span>
@@ -386,6 +389,36 @@ const Deposit = () => {
                       {coins[selectedCoinIndex]?.network || ''} network only. Sending to
                       other networks may result in loss of funds.
                     </p>
+                  </div>
+                </div>
+              </div>
+              */}
+
+              <div className={styles.depositNoticeCard}>
+                <p className={styles.depositNoticeTitle}>Deposit USDT to Binance</p>
+                <div className={styles.depositNoticeQr}>
+                  <img
+                    alt="TRX deposit QR"
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(
+                      depositAddress
+                    )}`}
+                  />
+                </div>
+                <div className={styles.depositNoticeRow}>
+                  <span className={styles.fieldLabel}>Network</span>
+                  <strong className={styles.depositNoticeValue}>TRX</strong>
+                </div>
+                <div className={styles.depositNoticeRow}>
+                  <span className={styles.fieldLabel}>Address</span>
+                  <div className={styles.depositNoticeAddressRow}>
+                    <strong className={styles.depositNoticeAddress}>{depositAddress}</strong>
+                    <button
+                      type="button"
+                      className={styles.copyBtn}
+                      onClick={() => navigator.clipboard.writeText(depositAddress)}
+                    >
+                      Copy
+                    </button>
                   </div>
                 </div>
               </div>
